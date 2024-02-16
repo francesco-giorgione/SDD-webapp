@@ -1,6 +1,5 @@
 const express = require('express')
 const ut = require('../utils')
-const {getPartiteAcquistate} = require("../utils");
 const router = express.Router()
 
 router.get('/profilo/silos/acquistati/:milkhub', async (req, res) => {
