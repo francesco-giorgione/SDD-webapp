@@ -34,6 +34,7 @@ import Operazioni from "./pages/Operazioni";
 import Movimenti from "./pages/Movimenti";
 import Profilo from "./pages/Profilo";
 import MenuNavBarDropdown from "./components/NavbarDropdown";
+import Traccia from "./pages/Traccia"
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route exact path="/Operazioni" element={< Operazioni />} />
             <Route exact path="/Movimenti" element={< Movimenti />} />
             <Route exact path="/Profilo" element={< Profilo />} />
+            <Route exact path="/Traccia" element={< Traccia />} />
           </Routes>
         </Router>
   );

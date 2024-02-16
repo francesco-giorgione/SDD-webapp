@@ -51,15 +51,15 @@ function AccordionComp() {
                         <Accordion.Item key={index} eventKey={index.toString()}>
                             <Accordion.Header>Silos {index + 1}</Accordion.Header>
                             <Accordion.Body>
-                                <p>ID: {silos.id}</p>
-                                <p>Alimentazione mucca: {silos.alimentazioneMucca}</p>
-                                <p>Compratore: {silos.compratore}</p>
-                                <p>Data di acquisto: {silos.dataAcquisto}</p>
-                                <p>Data di scadenza: {silos.dataScadenza}</p>
-                                <p>Fornitore: {silos.fornitore}</p>
-                                <p>Provenienza: {silos.provenienza}</p>
-                                <p>Quantità: {silos.quantita} litri</p>
-                                <p>Razza mucca: {silos.razzaMucca}</p>
+                                <p><b>Id:</b> {silos.id}</p>
+                                <p><b>Alimentazione mucca:</b> {silos.alimentazioneMucca}</p>
+                                <p><b>Compratore:</b> {silos.compratore}</p>
+                                <p><b>Data di acquisto:</b> {silos.dataAcquisto}</p>
+                                <p><b>Data di scadenza:</b> {silos.dataScadenza}</p>
+                                <p><b>Fornitore:</b> {silos.fornitore}</p>
+                                <p><b>Provenienza:</b> {silos.provenienza}</p>
+                                <p><b>Quantità:</b> {silos.quantita} litri</p>
+                                <p><b>Razza mucca:</b> {silos.razzaMucca}</p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}
@@ -72,12 +72,12 @@ function AccordionComp() {
                         <Accordion.Item key={index} eventKey={index.toString()}>
                             <Accordion.Header>Partita di latte {index + 1}</Accordion.Header>
                             <Accordion.Body>
-                                <p>ID: {partita.id}</p>
-                                <p>Data di acquisto: {partita.dataAcquisto}</p>
-                                <p>Data di scadenza: {partita.dataScadenza}</p>
-                                <p>Id silos usati: {partita.idSilosUsati}</p>
-                                <p>Quantità: {partita.quantita} litri</p>
-                                <p>Trasformazioni: {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
+                                <p><b>Id:</b> {partita.id}</p>
+                                <p><b>Data di acquisto:</b> {partita.dataAcquisto}</p>
+                                <p><b>Data di scadenza:</b> {partita.dataScadenza}</p>
+                                <p><b>Id silos usati:</b> {partita.idSilosUsati}</p>
+                                <p><b>Quantità:</b> {partita.quantita} litri</p>
+                                <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
                                     {partita.tipoTrasformazione[2]}, <br/> {partita.tipoTrasformazione[3]}</p>
                             </Accordion.Body>
                         </Accordion.Item>
@@ -91,13 +91,13 @@ function AccordionComp() {
                         <Accordion.Item key={index} eventKey={index.toString()}>
                             <Accordion.Header>Partita di latte {index + 1}</Accordion.Header>
                             <Accordion.Body>
-                                <p>ID: {partita.id}</p>
-                                <p>Compatore: {partita.compratore}</p>
-                                <p>Data di acquisto: {partita.dataAcquisto}</p>
-                                <p>Data di scadenza: {partita.dataScadenza}</p>
-                                <p>Id silos usati: {partita.idSilosUsati}</p>
-                                <p>Quantità: {partita.quantita} litri</p>
-                                <p>Trasformazioni: {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
+                                <p><b>Id:</b> {partita.id}</p>
+                                <p><b>Compatore:</b> {partita.compratore}</p>
+                                <p><b>Data di acquisto:</b> {partita.dataAcquisto}</p>
+                                <p><b>Data di scadenza:</b> {partita.dataScadenza}</p>
+                                <p><b>Id silos usati:</b> {partita.idSilosUsati}</p>
+                                <p><b>Quantità:</b> {partita.quantita} litri</p>
+                                <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
                                     {partita.tipoTrasformazione[2]}, <br/> {partita.tipoTrasformazione[3]}</p>
                             </Accordion.Body>
                         </Accordion.Item>
