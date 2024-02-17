@@ -15,6 +15,7 @@ root.render(
         <Router>
             <App />
             <Routes>
+                <Route exact path="/" element={< Traccia />} />
                 <Route exact path="/Traccia" element={< Traccia />} />
                 <Route exact path="/Operazioni" element={< Operazioni />} />
                 <Route exact path="/Movimenti" element={< Movimenti />} />
