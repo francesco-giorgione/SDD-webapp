@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Operazioni from "./pages/Operazioni";
 import Movimenti from "./pages/Movimenti";
 import Profilo from "./pages/Profilo";
+import Traccia from "./pages/Traccia";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
         <Router>
             <App />
             <Routes>
+                <Route exact path="/Traccia" element={< Traccia />} />
                 <Route exact path="/Operazioni" element={< Operazioni />} />
                 <Route exact path="/Movimenti" element={< Movimenti />} />
                 <Route exact path="/Profilo" element={< Profilo />} />

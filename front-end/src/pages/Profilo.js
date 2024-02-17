@@ -1,7 +1,6 @@
 import FormLogin from "../components/form/FormLogin";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-
 const logout = () => {
     sessionStorage.removeItem("username");
 

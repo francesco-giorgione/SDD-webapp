@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-function NavbarComplete() {
+function NavbarLogged() {
     return(
         <Navbar expand="lg" bg="primary" data-bs-theme="dark">
             <Container>
@@ -11,6 +11,7 @@ function NavbarComplete() {
                 <Navbar.Collapse id="basic-navbar-nav">
 
                     <Nav className="me-auto">
+                        <Nav.Link href="/Traccia">Traccia</Nav.Link>
                         <Nav.Link href="/Operazioni">Operazioni</Nav.Link>
                         <Nav.Link href="/Movimenti">Movimenti</Nav.Link>
                     </Nav>
@@ -23,7 +24,7 @@ function NavbarComplete() {
     );
 }
 
-function NavbarIncomplete() {
+function NavbarConsumer() {
     return(
         <Navbar expand="lg" bg="primary" data-bs-theme="dark">
             <Container>
@@ -31,6 +32,8 @@ function NavbarIncomplete() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
+                        <Nav.Link href="/Traccia">Traccia</Nav.Link>
+                        <Nav.Link>(per altre funzionalità, effettua il login tramite la sezione profilo)</Nav.Link>
                     </Nav>
                     <Nav>
                         <Nav.Link href="/Profilo">Profilo</Nav.Link>
@@ -45,9 +48,9 @@ function MenuNavBarDropdown() {
     var username = sessionStorage.getItem("username");
 
     if(username){
-        return(<NavbarComplete/>);
+        return(<NavbarLogged/>);
     } else {
-        return (<NavbarIncomplete/>);
+        return (<NavbarConsumer/>);
     }
 }
 
