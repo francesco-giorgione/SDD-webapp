@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Modal from "react-modal";
 import React, {useState} from 'react';
 import SchedaPartita from "./SchedaPartita";
+import getStringaData from "./utils";
 
 function SchedaFormaggio( {formaggio} ) {
     console.log(formaggio)
@@ -31,12 +32,12 @@ function SchedaFormaggio( {formaggio} ) {
                 <tbody>
                 <tr>
                     <td>{formaggio.id}</td>
-                    <td>{formaggio.dataAcquisto}</td>
-                    <td>{formaggio.dataScadenza}</td>
+                    <td>{getStringaData(new Date(parseInt(formaggio.dataAcquisto)))}</td>
+                    <td>{getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</td>
                     <td>{formaggio.diametro}</td>
                     <td>{formaggio.altezza}</td>
                     <td>{formaggio.certificatoStagionatura}</td>
-                    <td>{formaggio.peso}</td>
+                    <td>{formaggio.peso} libbre</td>
                     <td>{formaggio.venditore}</td>
                     <td>{formaggio.compratore}</td>
                     <td>

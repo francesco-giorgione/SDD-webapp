@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import {useState} from "react";
 import Modal from "react-modal";
 import SchedaSilos from "./SchedaSilos";
+import getStringaData from "./utils";
 
 function SchedaPartita( {partita} ) {
     return(
@@ -28,9 +29,9 @@ function SchedaPartita( {partita} ) {
                 <tbody>
                 <tr>
                     <td>{partita.id}</td>
-                    <td>{partita.dataAcquisto}</td>
-                    <td>{partita.dataScadenza}</td>
-                    <td>{partita.temperaturaConservazione}</td>
+                    <td>{getStringaData(new Date(parseInt(partita.dataAcquisto)))}</td>
+                    <td>{getStringaData(new Date(parseInt(partita.dataScadenza)))}</td>
+                    <td>{partita.temperaturaConservazione} °C</td>
                     <td>{partita.quantita} litri</td>
                     <td>{partita.venditore}</td>
                     <td>{partita.compratore}</td>

@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import React, { useState } from 'react';
 import Button from "react-bootstrap/Button";
 import SchedaFormaggio from "./SchedaFormaggio";
-
+import getStringaData from "./utils"
 
 function SchedaPezzo( {pezzo} ) {
     const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -26,7 +26,7 @@ function SchedaPezzo( {pezzo} ) {
                 <tbody>
                 <tr>
                     <td>{pezzo.output.id}</td>
-                    <td>{pezzo.output.dataAcquisto}</td>
+                    <td>{getStringaData(new Date(parseInt(pezzo.output.dataAcquisto)))}</td>
                     <td>{pezzo.output.quantita}</td>
                     <td>{pezzo.output.venditore}</td>
                     <td align='center'><Button onClick={() => {

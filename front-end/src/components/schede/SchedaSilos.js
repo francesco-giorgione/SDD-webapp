@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import React from "react";
+import getStringaData from "./utils";
 
 function SchedaSilos( {silos} ) {
     return(
@@ -26,9 +27,9 @@ function SchedaSilos( {silos} ) {
                 <tr>
                     <td>{silos.id}</td>
                     <td>{silos.alimentazioneMucca}</td>
-                    <td>{silos.dataAcquisto}</td>
-                    <td>{silos.dataProduzione}</td>
-                    <td>{silos.dataScadenza}</td>
+                    <td>{getStringaData(new Date(parseInt(silos.dataAcquisto)))}</td>
+                    <td>{getStringaData(new Date(parseInt(silos.dataProduzione)))}</td>
+                    <td>{getStringaData(new Date(parseInt(silos.dataScadenza)))}</td>
                     <td>{silos.fornitore}</td>
                     <td>{silos.compratore}</td>
                     <td>{silos.provenienza}</td>
