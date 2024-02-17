@@ -1,19 +1,35 @@
 const axios = require("axios");
 
 async function getSilos(id) {
-    return await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/AcquistoMilkhub_6.2.14/query/getById')
+    let silos = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/AcquistoMilkhub_6.2.14/query/getById')
+    let compratore = await getRagioneSociale(silos.output.compratore)
+    silos.output.compratore = compratore.output.ragioneSociale
+    return silos
 }
 
 async function getPartita(id) {
-    return await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getById')
+    let partita = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getById')
+    let compratore = await getRagioneSociale(partita.output.compratore)
+    let venditore = await getRagioneSociale(partita.output.venditore)
+    partita.output.compratore = compratore.output.ragioneSociale
+    partita.output.venditore = venditore.output.ragioneSociale
+    return partita
 }
 
 async function getFormaggio(id) {
-    return await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getById')
+    let formaggio = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getById')
+    let compratore = await getRagioneSociale(formaggio.output.compratore)
+    let venditore = await getRagioneSociale(formaggio.output.venditore)
+    formaggio.output.compratore = compratore.output.ragioneSociale
+    formaggio.output.venditore = venditore.output.ragioneSociale
+    return formaggio
 }
 
 async function getPezzo(id) {
-    return await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioRetailerConsumer_6.2.14/query/getById')
+    let pezzo = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioRetailerConsumer_6.2.14/query/getById')
+    let venditore = await getRagioneSociale(pezzo.output.venditore)
+    pezzo.output.venditore = venditore.output.ragioneSociale
+    return pezzo
 }
 
 async function getSilosAcquistati(milkhub) {
@@ -88,6 +104,34 @@ async function getPezziVenduti(retailer) {
         return ids.output.filter(pezzo => pezzo.compratore !== "")
     }
     return {"success": "false"}
+}
+
+async function getRagioneSociale(username) {
+    let url = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/GestioneUtenti_6.2.0/query/getUtenteByUsername'
+
+    try {
+        const credentials = Buffer.from("admin:admin").toString('base64');
+        const authHeader = `Basic ${credentials}`;
+
+        const response = await axios.post(url, {
+            input: {
+                username: username
+            }
+        }, {
+            headers: {
+                'Accept': 'application/json',
+                'Request-Timeout': '2m0s',
+                'Content-Type': 'application/json',
+                'Authorization': authHeader // Aggiunge l'header di autenticazione HTTP Basic
+            }
+        });
+
+        return {...{"success": "true"}, ...response.data}
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {"success": "false"}
+    }
 }
 
 async function fetchDataTrace(id, url) {
