@@ -11,6 +11,8 @@ function SchedaPezzo( {pezzo} ) {
 
     return(
         <Container fluid>
+            <h5 align='center'>Scheda pezzo di formaggio</h5>
+            <br/>
             <Table striped bordered hover>
                 <thead>
                 <tr>
