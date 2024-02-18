@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import React, {useState} from "react";
 import {FormLabel} from "react-bootstrap";
 import {convertDateTimetoEpochSeconds, getMinMaxDateTime} from "../../utils/DateTimeUtils";
+import {ToastContainer, toast, Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const provenienza_silos_options = [
     { value: "Provincia di Parma", label: "Provincia di Parma" },
@@ -34,26 +36,71 @@ function FormMilkhubAcquistaSilos() {
 
         var timeProd = convertDateTimetoEpochSeconds(selectedDateTimeProduzione);
 
+        var api = 'http://127.0.0.1:5000/api/v1/namespaces/default/apis/milkhubInterface/invoke/acquistaSilos'
 
-        var input = {
-            "input": {
-                "_alimentazioneMucca": formData.get("alimentazione"),
-                "_dataProduzione": timeProd.toString(),
-                "_dataScadenza": timeScad.toString(),
-                "_fornitore": formData.get("fornitore"),
-                "_provenienza": selectedProvenienza,
-                "_quantita": formData.get("quantita"),
-                "_razzaMucca": formData.get("razza"),
-                "user": sessionStorage.getItem("username")
-            }
-        }
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "input": {
+                    "alimentazioneMucca": formData.get("alimentazione"),
+                    "dataProduzione": timeProd.toString(),
+                    "dataScadenza": timeScad.toString(),
+                    "fornitore": formData.get("fornitore"),
+                    "provenienza": selectedProvenienza,
+                    "quantita": formData.get("quantita"),
+                    "razzaMucca": formData.get("razza"),
+                    "user": sessionStorage.getItem("username")
+                }
+            })
+        };
 
-        console.log(input);
+        fetch(api, requestOptions)
+
+            .then((response) => {
+
+                var res = response.json();
+
+                console.log(res)
+
+                console.log(res.value)
+
+                toast.info("toast", {
+                    position: "top-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            })
+            .catch((err) => {
+
+                console.log("error");
+
+            });
     };
 
 
     return(
-        <Container>
+        <div>
+        <label>Acquisto Silos:</label>
+        <Container className={"border border-primary rounded"} id={"container1"}>
+            <ToastContainer
+                position="top-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <Form onSubmit={handleSubmit}>
                 <FormLabel>Fornitore:</FormLabel>
                 <Form.Control
@@ -80,13 +127,14 @@ function FormMilkhubAcquistaSilos() {
                 <FormLabel>Data di produzione:</FormLabel>
                 <br/>
                 <input aria-label="Date and time"
+                       required={true}
                        value={selectedDateTimeProduzione}
                        onChange={e => {
                            setSelectedDateTimeProduzione(e.target.value)
                        }}
+                       className="form-control"
                        max={getMinMaxDateTime(-1)}
                        type="datetime-local"/>
-                <br/>
                 <br/>
                 <FormLabel>Razza mucche: &nbsp;&nbsp;</FormLabel>
                 <span>
@@ -132,22 +180,32 @@ function FormMilkhubAcquistaSilos() {
                 <br/>
                 <FormLabel>Quantità:</FormLabel>
                 <br/>
-                <input type="number" name="quantita" min="1" step="1" max="100"/>
+                <input type="number"
+                       required={true}
+                       name="quantita"
+                       className={"form-control"}
+                       min="1"
+                       step="1"
+                       max="100"/>
                 <br/>
                 <FormLabel>Data di scadenza:</FormLabel>
                 <br/>
                 <input aria-label="Date and time"
+                       required={true}
                        value={selectedDateTimeScadenza}
                        onChange={e => {
                            setSelectedDateTimeScadenza(e.target.value)
                        }}
+                       className={"form-control"}
                        min={getMinMaxDateTime(1)}
                        type="datetime-local"/>
                 <br/>
-                <br/>
                 <Button variant="primary" type="submit">Registra Acquisto</Button>
+                <br/>
+                <br/>
             </Form>
         </Container>
+        </div>
     );
 }
 

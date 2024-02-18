@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FormMilkhubAcquistaSilos from "./form/FormMilkhubAcquistaSilos";
 import FormLogin from "./form/FormLogin";
+import FormMilkhubVenditaPartita from "./form/FormMilkhubVenditaPartita";
 
 function ColumnsTwo() {
 
@@ -13,7 +14,7 @@ function ColumnsTwo() {
             return(<Container fluid>
                 <Row>
                     <Col sm><FormMilkhubAcquistaSilos/></Col>
-                    <Col sm><FormLogin/></Col>
+                    <Col sm><FormMilkhubVenditaPartita/></Col>
                 </Row>
             </Container>)
         }

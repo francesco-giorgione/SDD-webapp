@@ -11,7 +11,7 @@ function NavbarLogged() {
                 <Navbar.Collapse id="basic-navbar-nav">
 
                     <Nav className="me-auto">
-                        <Nav.Link href="/Traccia">Traccia</Nav.Link>
+                        <Nav.Link href="/">Traccia</Nav.Link>
                         <Nav.Link href="/Operazioni">Operazioni</Nav.Link>
                         <Nav.Link href="/Movimenti">Movimenti</Nav.Link>
                     </Nav>
@@ -32,11 +32,11 @@ function NavbarConsumer() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/Traccia">Traccia</Nav.Link>
-                        <Nav.Link>(per altre funzionalità, effettua il login tramite la sezione profilo)</Nav.Link>
+                        <Nav.Link href="/">Traccia</Nav.Link>
+                        <Nav.Link>(per altre funzionalità, effettua il login)</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="/Profilo">Profilo</Nav.Link>
+                        <Nav.Link href="/Profilo">Login</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

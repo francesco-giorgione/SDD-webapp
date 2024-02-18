@@ -31,7 +31,7 @@ export const getMinMaxDateTime = (offset) => {
 
 export const convertDateTimetoEpochSeconds = (dt) => {
 
-    console.log("convertDateTimetoEpochSeconds");
+    // console.log("convertDateTimetoEpochSeconds");
 
     //formato: YYYY-MM-DDTHH:MM
     // console.log(dt);
