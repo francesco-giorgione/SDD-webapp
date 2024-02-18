@@ -6,13 +6,10 @@ router.post('/auth', async (req, res) => {
     const username = req.body.username
     const hashPassword = req.body.hashPassword
 
-    console.log('username: ' + username)
-    console.log('!username: ' + !username)
-
-    if(!username || !hashPassword || !credenzialiOk(username, hashPassword)) {
+    if(!username || !hashPassword) {
         res.json({"success": "false"})
     }
-    else res.json({"success": "true"})
+    else res.json(credenzialiOk(username, hashPassword))
 })
 
 function credenzialiOk(username, hashPassword) {
@@ -21,12 +18,16 @@ function credenzialiOk(username, hashPassword) {
     const datiJson = fs.readFileSync(path, 'utf-8');
     const dati = JSON.parse(datiJson);
     let ok = false;
+    let ruolo
 
     dati.forEach((user) => {
-        if(!ok && user.username === username && user.password === hashPassword) {ok = true}
+        if(!ok && user.username === username && user.password === hashPassword) {
+            ruolo = user.ruolo
+            ok = true
+        }
     });
 
-    return ok
+    return ok ? {"success": "true", "ruolo": ruolo} : {"success": "false"}
 }
 
 module.exports = router;

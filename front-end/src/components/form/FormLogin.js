@@ -32,6 +32,7 @@ function FormLogin() {
         }
 
         sessionStorage.setItem("username", formData.username);
+        sessionStorage.setItem("ruolo", res.ruolo);  // 1 per milkhub, 2 per producer, 3 per retailer
         window.location.reload();
     };
 
