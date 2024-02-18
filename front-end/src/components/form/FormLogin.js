@@ -2,17 +2,15 @@ import React, {useState} from 'react';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import axios from "axios";
+import { SHA256 } from 'crypto-js';
 
 function FormLogin() {
-    // State variables to store form input values
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     });
-
-    // const { session, login, logout } = useContext(SessionContext);
-    //
-    // const navigate = useNavigate();
+    const [isValid, setIsValid] = useState(true);
 
     // Event handler to update form input values
     const handleChange = (e) => {
@@ -24,75 +22,82 @@ function FormLogin() {
     };
 
     // Event handler to submit form data
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Process form data here (e.g., send it to an API)
-        console.log(formData);
+        let res = await checkCredenziali(formData.username, formData.password)
 
-        // login(formData.username);
+        if (res.success === "false") {
+            setIsValid(false)
+            return
+        }
 
-        sessionStorage.setItem("username",formData.username);
-
-        console.log(sessionStorage.getItem("username"));
-
+        sessionStorage.setItem("username", formData.username);
         window.location.reload();
-
-        // Clear form fields if needed
-        // setFormData({
-        //     username: '',
-        //     password: ''
-        // });
     };
 
     return (
-        <div>
-        {/*<form onSubmit={handleSubmit}>*/}
-        {/*    <label>*/}
-        {/*        Username:*/}
-        {/*        <input*/}
-        {/*            type="text"*/}
-        {/*            name="username"*/}
-        {/*            value={formData.username}*/}
-        {/*            onChange={handleChange}*/}
-        {/*        />*/}
-        {/*    </label>*/}
-        {/*    <br/>*/}
-        {/*    <label>*/}
-        {/*        Password:*/}
-        {/*        <input*/}
-        {/*            type="password"*/}
-        {/*            name="password"*/}
-        {/*            value={formData.password}*/}
-        {/*            onChange={handleChange}*/}
-        {/*        />*/}
-        {/*    </label>*/}
-        {/*    <button type="submit">Submit</button>*/}
-        {/*</form>*/}
-        <Container>
-        <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                    type="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder="Inserisci lo username" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicUsername">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Inserisci la password" />
-            </Form.Group>
-            <Button variant="primary" type="submit">Login</Button>
-        </Form>
-        </Container>
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <Container>
+                <Form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: "400px" }}> {/* Aggiunta la proprietà style con maxWidth per impostare una larghezza massima */}
+                    <Form.Group className="mb-3" controlId="formBasicUsername">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                            type="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            placeholder="Inserisci lo username"
+                            required
+                            style={{ width: "100%" }} // Imposta la larghezza del campo input al 100%
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder="Inserisci la password"
+                            required
+                            style={{ width: "100%" }} // Imposta la larghezza del campo input al 100%
+                        />
+                    </Form.Group>
+                    <Button variant="primary" type="submit">Login</Button>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    {!isValid && (
+                        <Form.Text className="text-danger">
+                            Username o password errati
+                        </Form.Text>
+                    )}
+                </Form>
+            </Container>
         </div>
     );
 }
+
+async function checkCredenziali(username, password) {
+    const url = '/auth';
+
+    try {
+        const response = await axios.post(url, {
+            username: username,
+            hashPassword: SHA256(password).toString()
+        }, {
+            headers: {
+                'Accept': 'application/json',
+                'Request-Timeout': '2m0s',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response.data
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {"success": "false"}
+    }
+}
+
 
 export default FormLogin;
