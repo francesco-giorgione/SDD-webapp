@@ -5,7 +5,7 @@ import SchedaPezzo from "./schede/SchedaPezzo";
 
 function FormTracciabilita() {
     const [inputValue, setInputValue] = useState('');
-    const [isValid, setIsValid] = useState(true); // Stato per tracciare se il campo del form è valido o non valido
+    const [isValid, setIsValid] = useState(true);
     const [result, setResult] = useState(null);
 
 
@@ -29,7 +29,7 @@ function FormTracciabilita() {
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <div className="container">
                 <div className="row">
-                    <div className="col-md-6"> {/* Occupa metà della larghezza su schermi medi e più grandi */}
+                    <div className="col-md-6">
                         <Form style={{ padding: '30px' }} onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="idPezzo">
                                 <Form.Label>Id pezzo di formaggio</Form.Label>
@@ -39,7 +39,7 @@ function FormTracciabilita() {
                                     value={inputValue}
                                     onChange={handleInputChange}
                                     required
-                                    isInvalid={!isValid} // Aggiungi l'attributo isInvalid
+                                    isInvalid={!isValid}
                                 />
                                 {/* Feedback di Bootstrap per visualizzare il messaggio di errore */}
                                 <Form.Control.Feedback type="invalid">
