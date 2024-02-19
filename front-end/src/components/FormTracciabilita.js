@@ -14,7 +14,7 @@ function FormTracciabilita() {
         let pezzo = await getPezzo(inputValue);
 
         if (pezzo.success !== "false" && pezzo.output !== undefined) {
-            setResult(<SchedaPezzo pezzo={pezzo} />)
+            setResult(<SchedaPezzo pezzo={pezzo.output} />)
         } else {
             setIsValid(false)
         }

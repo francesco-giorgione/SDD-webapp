@@ -7,8 +7,6 @@ import getStringaData from "../utils";
 import { CustomModalPartita } from "../Modals";
 
 function SchedaFormaggio( {formaggio} ) {
-    console.log(formaggio)
-
     return(
         <Container fluid>
             <h5 align='center'>Scheda formaggio</h5>
@@ -36,7 +34,7 @@ function SchedaFormaggio( {formaggio} ) {
                     <td>{getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</td>
                     <td>{formaggio.diametro} pollici</td>
                     <td>{formaggio.altezza} pollici</td>
-                    <td>{formaggio.certificatoStagionatura}</td>
+                    <td>{getCertificato(formaggio.certificatoStagionatura)}</td>
                     <td>{formaggio.peso} libbre</td>
                     <td>{formaggio.venditore}</td>
                     <td>{formaggio.compratore}</td>
@@ -84,6 +82,14 @@ function ButtonList({ partite }) {
     );
 }
 
+function getCertificato(tipo) {
+    switch(tipo) {
+        case '1':     return '12 mesi'
+        case '2':     return '18 mesi'
+        case '3':     return '24 mesi'
+        case '4':     return '30 mesi'
+    }
+}
 
 
 export default SchedaFormaggio;
