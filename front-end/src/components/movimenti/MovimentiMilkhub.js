@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
+import getStringaData from "../utils";
 
-function AccordionComp() {
+function MovimentiMilkhub({username}) {
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
     const [data3, setData3] = useState([]);
@@ -14,7 +15,7 @@ function AccordionComp() {
 
     const fetchData1 = async () => {
         try {
-            const response = await fetch('/profilo/silos/acquistati/milkhub1');
+            const response = await fetch('/profilo/silos/acquistati/' + username);
             const jsonData = await response.json();
             setData1(jsonData);
         } catch (error) {
@@ -24,7 +25,7 @@ function AccordionComp() {
 
     const fetchData2 = async () => {
         try {
-            const response = await fetch('/profilo/partite/in-vendita/milkhub1');
+            const response = await fetch('/profilo/partite/in-vendita/' + username);
             const jsonData = await response.json();
             setData2(jsonData);
         } catch (error) {
@@ -34,7 +35,7 @@ function AccordionComp() {
 
     const fetchData3 = async () => {
         try {
-            const response = await fetch('/profilo/partite/venduti/milkhub1');
+            const response = await fetch('/profilo/partite/venduti/' + username);
             const jsonData = await response.json();
             setData3(jsonData);
         } catch (error) {
@@ -54,8 +55,8 @@ function AccordionComp() {
                                 <p><b>Id:</b> {silos.id}</p>
                                 <p><b>Alimentazione mucca:</b> {silos.alimentazioneMucca}</p>
                                 <p><b>Compratore:</b> {silos.compratore}</p>
-                                <p><b>Data di acquisto:</b> {silos.dataAcquisto}</p>
-                                <p><b>Data di scadenza:</b> {silos.dataScadenza}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(silos.dataAcquisto)))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(silos.dataScadenza)))}</p>
                                 <p><b>Fornitore:</b> {silos.fornitore}</p>
                                 <p><b>Provenienza:</b> {silos.provenienza}</p>
                                 <p><b>Quantità:</b> {silos.quantita} litri</p>
@@ -73,8 +74,8 @@ function AccordionComp() {
                             <Accordion.Header>Partita di latte {index + 1}</Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
-                                <p><b>Data di acquisto:</b> {partita.dataAcquisto}</p>
-                                <p><b>Data di scadenza:</b> {partita.dataScadenza}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}</p>
                                 <p><b>Id silos usati:</b> {partita.idSilosUsati}</p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
                                 <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
@@ -93,9 +94,8 @@ function AccordionComp() {
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
                                 <p><b>Compatore:</b> {partita.compratore}</p>
-                                <p><b>Data di acquisto:</b> {partita.dataAcquisto}</p>
-                                <p><b>Data di scadenza:</b> {partita.dataScadenza}</p>
-                                <p><b>Id silos usati:</b> {partita.idSilosUsati}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}</p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
                                 <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
                                     {partita.tipoTrasformazione[2]}, <br/> {partita.tipoTrasformazione[3]}</p>
@@ -108,4 +108,4 @@ function AccordionComp() {
     );
 }
 
-export default AccordionComp;
+export default MovimentiMilkhub;

@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import React from "react";
-import getStringaData from "./utils";
+import getStringaData from "../utils";
 
 function SchedaSilos( {silos} ) {
     return(

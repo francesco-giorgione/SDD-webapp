@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import {useState} from "react";
 import Modal from "react-modal";
 import SchedaSilos from "./SchedaSilos";
-import getStringaData from "./utils";
+import getStringaData from "../utils";
 
 function SchedaPartita( {partita} ) {
     return(
