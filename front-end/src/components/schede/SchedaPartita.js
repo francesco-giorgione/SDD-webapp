@@ -7,8 +7,8 @@ import Modal from "react-modal";
 import SchedaSilos from "./SchedaSilos";
 import getStringaData from "../utils";
 
-function SchedaPartita( {partita} ) {
-    return(
+ function SchedaPartita({partita}) {
+     return (
         <Container fluid>
             <h5 align='center'>Scheda partita di latte</h5>
             <br/>
@@ -88,5 +88,15 @@ function CustomModal({ silos, closeModal }) {
     );
 }
 
-export default SchedaPartita;
 
+async function getPartita(id) {
+    try {
+        const response = await fetch('/trace/partita/' + id);
+        return await response.json();
+    } catch (error) {
+        console.error('Errore durante il recupero dei dati:', error);
+    }
+}
+
+
+export default SchedaPartita;

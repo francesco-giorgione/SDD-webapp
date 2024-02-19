@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import getStringaData from "../utils";
+import { useNavigate } from 'react-router-dom';
+import Button from "react-bootstrap/Button";
+
 
 function MovimentiRetailer({username}) {
     const [data1, setData1] = useState([]);
@@ -31,6 +34,16 @@ function MovimentiRetailer({username}) {
         }
     };
 
+    const handleApriSchedaFormaggio = (idFormaggio) => {
+        navigate(`/Formaggio`, {state: {idFormaggio: idFormaggio}});
+    };
+
+    const handleApriSchedaPezzo = (idPezzo) => {
+        navigate(`/Pezzo`, {state: {idPezzo: idPezzo}});
+    };
+
+    const navigate = useNavigate();
+
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div style={{ flex: '0 0 30%', marginRight: '10px' }}>
@@ -47,8 +60,7 @@ function MovimentiRetailer({username}) {
                                 <p><b>Altezza:</b> {formaggio.altezza} cm</p>
                                 <p><b>Diametro:</b> {formaggio.diametro} cm</p>
                                 <p><b>Peso:</b> {formaggio.peso} libbre</p>
-                                <p><b>Trasformazioni:</b> {formaggio.tipoTrasformazione[0]},<br/> {formaggio.tipoTrasformazione[1]}, <br/>
-                                    {formaggio.tipoTrasformazione[2]}, <br/> {formaggio.tipoTrasformazione[3]}</p>
+                                <p><Button onClick={() => handleApriSchedaFormaggio(formaggio.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}
@@ -64,6 +76,7 @@ function MovimentiRetailer({username}) {
                                 <p><b>Id:</b> {pezzo.id}</p>
                                 <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(pezzo.dataAcquisto)))}</p>
                                 <p><b>Quantità:</b> {pezzo.quantita} grammi</p>
+                                <p><Button onClick={() => handleApriSchedaPezzo(pezzo.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}

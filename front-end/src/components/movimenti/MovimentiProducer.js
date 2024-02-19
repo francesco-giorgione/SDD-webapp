@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import getStringaData from "../utils"
+import { useNavigate } from 'react-router-dom';
+import Button from "react-bootstrap/Button";
 
 function MovimentiProducer({username}) {
     const [data1, setData1] = useState([]);
@@ -43,6 +45,16 @@ function MovimentiProducer({username}) {
         }
     };
 
+    const handleApriSchedaPartita = (idPartita) => {
+        navigate(`/Partita`, {state: {idPartita: idPartita}});
+    };
+
+    const handleApriSchedaFormaggio = (idFormaggio) => {
+        navigate(`/Formaggio`, {state: {idFormaggio: idFormaggio}});
+    };
+
+    const navigate = useNavigate();
+
     return (
         <div style={{ display: 'flex' }}>
             <div style={{ flex: '0 0 30%', marginRight: '10px' }}>
@@ -57,8 +69,7 @@ function MovimentiProducer({username}) {
                                 <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}</p>
                                 <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}</p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
-                                <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
-                                    {partita.tipoTrasformazione[2]}, <br/> {partita.tipoTrasformazione[3]}</p>
+                                <p><Button onClick={() => handleApriSchedaPartita(partita.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}
@@ -77,8 +88,7 @@ function MovimentiProducer({username}) {
                                 <p><b>Altezza:</b> {formaggio.altezza} cm</p>
                                 <p><b>Diametro:</b> {formaggio.diametro} cm</p>
                                 <p><b>Peso:</b> {formaggio.peso} libbre</p>
-                                <p><b>Trasformazioni:</b> {formaggio.tipoTrasformazione[0]},<br/> {formaggio.tipoTrasformazione[1]}, <br/>
-                                    {formaggio.tipoTrasformazione[2]}, <br/> {formaggio.tipoTrasformazione[3]}</p>
+                                <p><Button onClick={() => handleApriSchedaFormaggio(formaggio.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}
@@ -98,8 +108,7 @@ function MovimentiProducer({username}) {
                                 <p><b>Altezza:</b> {formaggio.altezza} cm</p>
                                 <p><b>Diametro:</b> {formaggio.diametro} cm</p>
                                 <p><b>Peso:</b> {formaggio.peso} libbre</p>
-                                <p><b>Trasformazioni:</b> {formaggio.tipoTrasformazione[0]},<br/> {formaggio.tipoTrasformazione[1]}, <br/>
-                                    {formaggio.tipoTrasformazione[2]}, <br/> {formaggio.tipoTrasformazione[3]}</p>
+                                <p><Button onClick={() => handleApriSchedaFormaggio(formaggio.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}

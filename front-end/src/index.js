@@ -8,6 +8,9 @@ import Operazioni from "./pages/Operazioni";
 import Movimenti from "./pages/Movimenti";
 import Profilo from "./pages/Profilo";
 import Traccia from "./pages/Traccia";
+import Partita from "./pages/prodotti/Partita";
+import Formaggio from "./pages/prodotti/Formaggio";
+import Pezzo from "./pages/prodotti/Pezzo";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +23,9 @@ root.render(
                 <Route exact path="/Operazioni" element={< Operazioni />} />
                 <Route exact path="/Movimenti" element={< Movimenti />} />
                 <Route exact path="/Profilo" element={< Profilo />} />
+                <Route exact path="/Partita" element={< Partita />} />
+                <Route exact path="/Formaggio" element={< Formaggio />} />
+                <Route exact path="/Pezzo" element={< Pezzo />} />
             </Routes>
         </Router>
     </React.StrictMode>

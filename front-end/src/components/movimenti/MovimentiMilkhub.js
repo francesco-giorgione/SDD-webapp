@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import getStringaData from "../utils";
+import Button from 'react-bootstrap/Button'
+import { useNavigate } from 'react-router-dom';
 
 function MovimentiMilkhub({username}) {
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([]);
     const [data3, setData3] = useState([]);
+
 
     useEffect(() => {
         fetchData1();
@@ -43,9 +46,15 @@ function MovimentiMilkhub({username}) {
         }
     };
 
+    const handleApriScheda = (idPartita) => {
+        navigate(`/Partita`, {state: {idPartita: idPartita}});
+    };
+
+    const navigate = useNavigate();
+
     return (
-        <div style={{ display: 'flex' }}>
-            <div style={{ flex: '0 0 30%', marginRight: '10px' }}>
+        <div style={{display: 'flex'}}>
+            <div style={{flex: '0 0 30%', marginRight: '10px'}}>
                 <p>Prodotti acquistati</p>
                 <Accordion>
                     {data1.map((silos, index) => (
@@ -66,26 +75,29 @@ function MovimentiMilkhub({username}) {
                     ))}
                 </Accordion>
             </div>
-            <div style={{ flex: '0 0 30%', marginRight: '10px' }}>
+            <div style={{flex: '0 0 30%', marginRight: '10px'}}>
                 <p>Prodotti in vendita</p>
                 <Accordion>
                     {data2.map((partita, index) => (
                         <Accordion.Item key={index} eventKey={index.toString()}>
-                            <Accordion.Header>Partita di latte {index + 1}</Accordion.Header>
+                            <Accordion.Header>
+                                Partita di latte {index + 1}
+                            </Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}
+                                </p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}
+                                </p>
                                 <p><b>Id silos usati:</b> {partita.idSilosUsati}</p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
-                                <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
-                                    {partita.tipoTrasformazione[2]}, <br/> {partita.tipoTrasformazione[3]}</p>
+                                <p><Button onClick={() => handleApriScheda(partita.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}
                 </Accordion>
             </div>
-            <div style={{ flex: '0 0 30%', marginRight: '10px' }}>
+            <div style={{flex: '0 0 30%', marginRight: '10px'}}>
                 <p>Prodotti venduti</p>
                 <Accordion>
                     {data3.map((partita, index) => (
@@ -94,11 +106,12 @@ function MovimentiMilkhub({username}) {
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
                                 <p><b>Compatore:</b> {partita.compratore}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}
+                                </p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}
+                                </p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
-                                <p><b>Trasformazioni:</b> {partita.tipoTrasformazione[0]},<br/> {partita.tipoTrasformazione[1]}, <br/>
-                                    {partita.tipoTrasformazione[2]}, <br/> {partita.tipoTrasformazione[3]}</p>
+                                <p><Button onClick={() => handleApriScheda(partita.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
                         </Accordion.Item>
                     ))}

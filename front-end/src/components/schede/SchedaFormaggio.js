@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Modal from "react-modal";
 import React, {useState} from 'react';
-import SchedaPartita from "./SchedaPartita";
 import getStringaData from "../utils";
+import { CustomModalPartita } from "../Modals";
 
 function SchedaFormaggio( {formaggio} ) {
     console.log(formaggio)
@@ -34,8 +34,8 @@ function SchedaFormaggio( {formaggio} ) {
                     <td>{formaggio.id}</td>
                     <td>{getStringaData(new Date(parseInt(formaggio.dataAcquisto)))}</td>
                     <td>{getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</td>
-                    <td>{formaggio.diametro}</td>
-                    <td>{formaggio.altezza}</td>
+                    <td>{formaggio.diametro} pollici</td>
+                    <td>{formaggio.altezza} pollici</td>
                     <td>{formaggio.certificatoStagionatura}</td>
                     <td>{formaggio.peso} libbre</td>
                     <td>{formaggio.venditore}</td>
@@ -78,19 +78,12 @@ function ButtonList({ partite }) {
         <div>
             {buttons}
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                {selectedPartita && <CustomModal partita={selectedPartita} closeModal={closeModal} />}
+                {selectedPartita && <CustomModalPartita partita={selectedPartita} closeModal={closeModal} />}
             </Modal>
         </div>
     );
 }
 
-function CustomModal({ partita, closeModal }) {
-    return (
-        <Container fluid>
-            <SchedaPartita partita={partita} />
-            <Button onClick={closeModal}>Chiudi scheda</Button>
-        </Container>
-    );
-}
+
 
 export default SchedaFormaggio;
