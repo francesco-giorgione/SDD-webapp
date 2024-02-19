@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SchedaPartita from "../../components/schede/SchedaPartita";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, Navigate} from "react-router-dom";
 
 function Partita() {
     const location = useLocation();
@@ -15,6 +15,7 @@ function Partita() {
                 setPartita(data);
             } catch (error) {
                 console.error('Errore durante il recupero dei dati:', error);
+                return <Navigate to="/Movimenti" />;
             }
         };
 
