@@ -7,14 +7,6 @@ import {convertDateTimetoEpochSeconds, getMinMaxDateTime} from "../../utils/Date
 import {ToastContainer, toast, Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const provenienza_silos_options = [
-    { value: "Provincia di Parma", label: "Provincia di Parma" },
-    { value: "Provincia di Reggio Emilia", label: "Provincia di Reggio Emilia" },
-    { value: "Provincia di Modena", label: "Provincia di Modena" },
-    { value: "Provincia di Bologna (ovest del Reno)", label: "Provincia di Bologna (ovest del Reno)" },
-    { value: "Provincia di Mantova (sud del Po)", label: "Provincia di Mantova (sud del Po)" }
-]
-
 function FormMilkhubAcquistaSilos() {
     const [selectedProvenienza, setSelectedProvenienza] = useState("");
 
@@ -32,7 +24,7 @@ function FormMilkhubAcquistaSilos() {
 
         console.log(formData);
 
-        var timeScad = convertDateTimetoEpochSeconds(selectedDateTimeScadenza)
+        var timeScad = convertDateTimetoEpochSeconds(selectedDateTimeScadenza);
 
         var timeProd = convertDateTimetoEpochSeconds(selectedDateTimeProduzione);
 
