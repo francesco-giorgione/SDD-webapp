@@ -92,7 +92,7 @@ async function getPezziInVendita(retailer) {
     let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioRetailerConsumer_6.2.14/query/getIdPezziFormaggioByVenditore')
 
     if(ids.success === "true") {
-        return ids.output.filter(pezzo => pezzo.compratore === "")
+        return ids.output
     }
     return {"success": "false"}
 }
