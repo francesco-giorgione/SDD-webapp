@@ -2,8 +2,11 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import FormMilkhubAcquistaSilos from "./form/FormMilkhubAcquistaSilos";
-import FormLogin from "./form/FormLogin";
 import FormMilkhubVenditaPartita from "./form/FormMilkhubVenditaPartita";
+import FormProducerAcquistaPartita from "./form/FormProducerAcquistaPartita";
+import FormProducerVenditaFormaggio from "./form/FormProducerVenditaFormaggio";
+import FormRetailerAcquistaFormaggio from "./form/FormRetailerAcquistaFormaggio";
+import FormRetailerVenditaPezzoFormaggio from "./form/FormRetailerVenditaPezzoFormaggio";
 
 function ColumnsTwo() {
 
@@ -21,9 +24,8 @@ function ColumnsTwo() {
         else if (username.slice(0,username.length-1) === "producer") {
             return(<Container fluid>
                 <Row>
-                    <p>Producer</p>
-                    <Col sm><FormLogin/></Col>
-                    <Col sm><FormLogin/></Col>
+                    <Col sm><FormProducerAcquistaPartita/></Col>
+                    <Col sm><FormProducerVenditaFormaggio/></Col>
                 </Row>
             </Container>)
         }
@@ -31,8 +33,8 @@ function ColumnsTwo() {
             return(<Container fluid>
                 <Row>
                     <p>Retailer</p>
-                    <Col sm><FormLogin/></Col>
-                    <Col sm><FormLogin/></Col>
+                    <Col sm><FormRetailerAcquistaFormaggio/></Col>
+                    <Col sm><FormRetailerVenditaPezzoFormaggio/></Col>
                 </Row>
             </Container>)
         } else {

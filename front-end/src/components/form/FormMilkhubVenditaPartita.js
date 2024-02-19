@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {convertDateTimetoEpochSeconds, getMinMaxDateTime} from "../../utils/DateTimeUtils";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -11,7 +11,28 @@ const trasformazioniRichieste = ["Separazione della crema per l'ottenimento di u
     "Rottura della cagliata in piccoli pezzi per 10-12 minuti a temperatura di 55 gradi"];
 
 function FormMilkhubVenditaPartita() {
+
+    const [silos, setSilos] = useState([]);
+
     const [selectedDateTimeScadenza, setSelectedDateTimeScadenza] = useState("");
+
+    const username = sessionStorage.getItem("username");
+
+    useEffect(() => {
+        fetchSilosId(username);
+    }, []);
+
+    const fetchSilosId  = async (username) => {
+        try {
+            const response = await fetch(`/profilo/silos/acquistati/${username}`);
+            const jsonData = await response.json();
+            console.log(jsonData);
+            console.log("okay")
+            setSilos(jsonData);
+        } catch (error) {
+            console.error('Errore durante il recupero dei dati:', error);
+        }
+    }
 
     // Event handler to submit form data
     const handleSubmit = (e) => {
@@ -24,6 +45,27 @@ function FormMilkhubVenditaPartita() {
         var timeScad = convertDateTimetoEpochSeconds(selectedDateTimeScadenza)
 
         console.log(formData);
+
+        // {
+        //     "input": {
+        //     "_dataScadenza": timeScad,
+        //         "_idSilosUsati": [
+        //         "string",
+        //         0
+        //         ],
+        //         "_quantita": formData.get("quantita"),
+        //         "_temperaturaConservazione": formData.get("temperatura"),
+        //         "_tipoTrasformazione": [
+        //             "Separazione della crema per l'ottenimento di una miscela parzialmente scremata",
+        //             "Aggiunta di siero contenente batteri acidi per 10-12 minuti a temperatura di 33-35 gradi",
+        //             "Aggiunta di caglio di vitello e riposo per 10-12 minuti a temperatura di 33-35 gradi",
+        //             "Rottura della cagliata in piccoli pezzi per 10-12 minuti a temperatura di 55 gradi"
+        //         ],
+        //         "user": username
+        //      }
+        // }
+
+
 
 
     };
@@ -95,6 +137,19 @@ function FormMilkhubVenditaPartita() {
                        step="1"
                        max="99"/>
                 <br/>
+                <FormLabel>Silos usati (seleziona gli id):</FormLabel>
+                <br/>
+                {/*{silos.map((silos, index) => (*/}
+                {/*    <Form.Check*/}
+                {/*        inline*/}
+                {/*        label={"silos"+silos.id}*/}
+                {/*        name={"silos"+silos.id}*/}
+                {/*        type={"checkbox"}*/}
+                {/*        value={silos.id}*/}
+                {/*        id={silos.id}*/}
+                {/*    />*/}
+                {/*))}*/}
+                <br/>
                 <FormLabel>Quantità:</FormLabel>
                 <br/>
                 <input type="number"
@@ -105,8 +160,6 @@ function FormMilkhubVenditaPartita() {
                        step="1"
                        max="99"/>
                 <br/>
-
-
 
                 <br/>
                 <Button variant="primary" type="submit">Metti in Vendita</Button>
