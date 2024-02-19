@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
-import getStringaData from "./utils";
+import getStringaData from "../utils";
 
 function MovimentiMilkhub({username}) {
     const [data1, setData1] = useState([]);

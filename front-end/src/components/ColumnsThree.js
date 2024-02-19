@@ -1,17 +1,23 @@
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import AccordionComp from "./AccordionComp";
+import MovimentiMilkhub from "./movimenti/MovimentiMilkhub";
+import MovimentiProducer from "./movimenti/MovimentiProducer";
+import MovimentiRetailer from "./movimenti/MovimentiRetailer";
 
 
-function ColumnsThree({data}) {
-    return (
-        <Container fluid>
-            <Row>
-                <Col sm><AccordionComp/></Col>
-            </Row>
-        </Container>
-    );
+function ColumnsThree() {
+    let username = sessionStorage.getItem("username")
+    let ruolo = sessionStorage.getItem("ruolo")
+
+    if(parseInt(ruolo) === 1) {
+        return (<MovimentiMilkhub username={username}/>);
+    }
+
+    if(parseInt(ruolo) === 2) {
+        return (<MovimentiProducer username={username}/>);
+    }
+
+    if(parseInt(ruolo) === 3) {
+        return (<MovimentiRetailer username={username}/>);
+    }
 }
 
 

@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Modal from "react-modal";
 import React, {useState} from 'react';
 import SchedaPartita from "./SchedaPartita";
-import getStringaData from "./utils";
+import getStringaData from "../utils";
 
 function SchedaFormaggio( {formaggio} ) {
     console.log(formaggio)

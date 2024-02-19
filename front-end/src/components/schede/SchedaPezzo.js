@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import React, { useState } from 'react';
 import Button from "react-bootstrap/Button";
 import SchedaFormaggio from "./SchedaFormaggio";
-import getStringaData from "./utils"
+import getStringaData from "../utils"
 
 function SchedaPezzo( {pezzo} ) {
     const [modalIsOpen, setModalIsOpen] = useState(false)

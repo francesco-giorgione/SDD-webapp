@@ -190,6 +190,5 @@ module.exports = {
     getFormaggiInVendita,
     getFormaggiVenduti,
     getFormaggiAcquistati,
-    getPezziInVendita,
-    getPezziVenduti
+    getPezziInVendita
 }

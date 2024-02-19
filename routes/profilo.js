@@ -34,10 +34,6 @@ router.get('/profilo/pezzi/in-vendita/:retailer', async (req, res) => {
     res.json(await getProdottiProfilo(req.params.retailer, ut.getPezziInVendita, ut.getPezzo))
 })
 
-router.get('/profilo/pezzi/venduti/:retailer', async (req, res) => {
-    res.json(await getProdottiProfilo(req.params.retailer, ut.getPezziVenduti, ut.getPezzo))
-})
-
 async function getProdottiProfilo(user, getter, getterProdotto) {
     let ids = await getter(user)
     let prodotti = []
