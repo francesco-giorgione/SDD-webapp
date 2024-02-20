@@ -28,7 +28,7 @@ function FormMilkhubAcquistaSilos() {
 
         var timeProd = convertDateTimetoEpochSeconds(selectedDateTimeProduzione);
 
-        var api = 'http://127.0.0.1:5000/api/v1/namespaces/default/apis/milkhubInterface/invoke/acquistaSilos'
+        var api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/MilkhubInterface_6.2.15/invoke/acquistaSilos'
 
         const requestOptions = {
             method: 'POST',
@@ -57,7 +57,7 @@ function FormMilkhubAcquistaSilos() {
 
                 console.log(res.value)
 
-                toast.info("toast", {
+                toast.info("Inserimento effettuato", {
                     position: "top-left",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -178,7 +178,7 @@ function FormMilkhubAcquistaSilos() {
                        className={"form-control"}
                        min="1"
                        step="1"
-                       max="100"/>
+                       />
                 <br/>
                 <FormLabel>Data di scadenza:</FormLabel>
                 <br/>

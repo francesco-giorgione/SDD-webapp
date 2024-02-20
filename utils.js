@@ -1,5 +1,4 @@
 const axios = require("axios");
-const partita = require("./front-end/src/pages/prodotti/Partita");
 
 async function getSilos(id) {
     let silos = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/AcquistoMilkhub_6.2.14/query/getById')
@@ -47,7 +46,7 @@ async function getPartiteInVendita(milkhub) {
     let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getIdPartiteLatteByVenditore')
 
     if(ids.success === "true") {
-        return ids.output.filter(partita => partita.compratore === "")
+        return ids.output
     }
     return {"success": "false"}
 }
@@ -56,9 +55,7 @@ async function getPartiteVendute(milkhub) {
     let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getIdPartiteLatteByVenditore')
 
     if(ids.success === "true") {
-       /* console.log('PARTITA.COMPRATORE')
-        console.log(partita.compratore) */
-        return ids.output.filter(partita => partita.compratore !== "")
+        return ids.output
     }
     return {"success": "false"}
 }
@@ -72,7 +69,7 @@ async function getFormaggiInVendita(producer) {
     let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getIdFormaggiByVenditore')
 
     if(ids.success === "true") {
-        return ids.output.filter(formaggio => formaggio.compratore === "")
+        return ids.output
     }
     return {"success": "false"}
 }
@@ -81,7 +78,7 @@ async function getFormaggiVenduti(producer) {
     let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getIdFormaggiByVenditore')
 
     if(ids.success === "true") {
-        return ids.output.filter(partita => partita.compratore !== "")
+        return ids.output
     }
     return {"success": "false"}
 }
@@ -181,13 +178,24 @@ async function fetchDataProfilo(user, url) {
     }
 }
 
-async function getProdottiProfilo(user, getter, getterProdotto) {
+async function getProdottiProfilo(user, getter, getterProdotto, compratoreNullo) {
     let ids = await getter(user)
     let prodotti = []
 
     try {
         const promesse = ids.map(async (id) => {
             let tmp = await getterProdotto(id)
+
+            if(tmp.output.compratore !== undefined) {
+                if(!compratoreNullo && tmp.output.compratore === '') {
+                    return
+                }
+
+                if(compratoreNullo && tmp.output.compratore !== '') {
+                    return
+                }
+            }
+
             return tmp.output
         });
 
@@ -197,7 +205,7 @@ async function getProdottiProfilo(user, getter, getterProdotto) {
         return {"success": "false"}
     }
 
-    return prodotti
+    return prodotti.filter((prodotto) => prodotto)
 }
 
 module.exports = {
