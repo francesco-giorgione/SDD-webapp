@@ -11,8 +11,8 @@ async function getPartita(id) {
     let partita = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getById')
     let compratore = await getRagioneSociale(partita.output.compratore)
     let venditore = await getRagioneSociale(partita.output.venditore)
-    partita.output.compratore = compratore.output.ragioneSociale
-    partita.output.venditore = venditore.output.ragioneSociale
+    if(compratore.success !== "false") partita.output.compratore = compratore.output.ragioneSociale
+    if(venditore.success !== "false") partita.output.venditore = venditore.output.ragioneSociale
     return partita
 }
 
@@ -178,6 +178,25 @@ async function fetchDataProfilo(user, url) {
     }
 }
 
+async function getProdottiProfilo(user, getter, getterProdotto) {
+    let ids = await getter(user)
+    let prodotti = []
+
+    try {
+        const promesse = ids.map(async (id) => {
+            let tmp = await getterProdotto(id)
+            return tmp.output
+        });
+
+        prodotti = await Promise.all(promesse)
+    } catch (error) {
+        console.error("Si è verificato un errore:", error)
+        return {"success": "false"}
+    }
+
+    return prodotti
+}
+
 module.exports = {
     getSilos,
     getPartita,
@@ -190,5 +209,6 @@ module.exports = {
     getFormaggiInVendita,
     getFormaggiVenduti,
     getFormaggiAcquistati,
-    getPezziInVendita
+    getPezziInVendita,
+    getProdottiProfilo
 }
