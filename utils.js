@@ -1,34 +1,35 @@
 const axios = require("axios");
+const partita = require("./front-end/src/pages/prodotti/Partita");
 
 async function getSilos(id) {
     let silos = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/AcquistoMilkhub_6.2.14/query/getById')
-    let compratore = await getRagioneSociale(silos.output.compratore)
-    silos.output.compratore = compratore.output.ragioneSociale
+    // let compratore = await getRagioneSociale(silos.output.compratore)
+    // silos.output.compratore = compratore.output.ragioneSociale
     return silos
 }
 
 async function getPartita(id) {
     let partita = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getById')
-    let compratore = await getRagioneSociale(partita.output.compratore)
-    let venditore = await getRagioneSociale(partita.output.venditore)
-    if(compratore.success !== "false") partita.output.compratore = compratore.output.ragioneSociale
-    if(venditore.success !== "false") partita.output.venditore = venditore.output.ragioneSociale
+    // let compratore = await getRagioneSociale(partita.output.compratore)
+    // let venditore = await getRagioneSociale(partita.output.venditore)
+    // if(compratore.success !== "false") partita.output.compratore = compratore.output.ragioneSociale
+    // if(venditore.success !== "false") partita.output.venditore = venditore.output.ragioneSociale
     return partita
 }
 
 async function getFormaggio(id) {
     let formaggio = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getById')
-    let compratore = await getRagioneSociale(formaggio.output.compratore)
-    let venditore = await getRagioneSociale(formaggio.output.venditore)
-    formaggio.output.compratore = compratore.output.ragioneSociale
-    formaggio.output.venditore = venditore.output.ragioneSociale
+    // let compratore = await getRagioneSociale(formaggio.output.compratore)
+    // let venditore = await getRagioneSociale(formaggio.output.venditore)
+    // formaggio.output.compratore = compratore.output.ragioneSociale
+    // formaggio.output.venditore = venditore.output.ragioneSociale
     return formaggio
 }
 
 async function getPezzo(id) {
     let pezzo = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioRetailerConsumer_6.2.14/query/getById')
-    let venditore = await getRagioneSociale(pezzo.output.venditore)
-    pezzo.output.venditore = venditore.output.ragioneSociale
+    // let venditore = await getRagioneSociale(pezzo.output.venditore)
+    // pezzo.output.venditore = venditore.output.ragioneSociale
     return pezzo
 }
 
@@ -55,6 +56,8 @@ async function getPartiteVendute(milkhub) {
     let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getIdPartiteLatteByVenditore')
 
     if(ids.success === "true") {
+       /* console.log('PARTITA.COMPRATORE')
+        console.log(partita.compratore) */
         return ids.output.filter(partita => partita.compratore !== "")
     }
     return {"success": "false"}

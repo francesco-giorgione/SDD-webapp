@@ -14,7 +14,6 @@ router.post('/auth', async (req, res) => {
 
 function credenzialiOk(username, hashPassword) {
     let path = '../SDD-webapp/auth/users.json'
-    console.log('path: ' + path)
     const datiJson = fs.readFileSync(path, 'utf-8');
     const dati = JSON.parse(datiJson);
     let ok = false;
