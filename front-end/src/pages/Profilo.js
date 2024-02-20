@@ -1,8 +1,8 @@
 import FormLogin from "../components/form/FormLogin";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import SchedaProfilo from "../components/schede/SchedaProfilo";
 const logout = () => {
     sessionStorage.removeItem("username");
+    sessionStorage.removeItem("ruolo");
 
     window.location.reload();
 }
@@ -14,7 +14,7 @@ export default function Profilo() {
     console.log(username);
 
     if (username) {
-        return(<Container>Sezione Profilo di {username} <Button variant="primary" onClick={logout}>Logout</Button></Container>);
+        return(<SchedaProfilo/>)
     } else {
         return(<FormLogin/>);
     }
