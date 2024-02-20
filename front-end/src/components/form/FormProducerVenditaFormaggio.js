@@ -4,27 +4,39 @@ import {FormLabel} from "react-bootstrap";
 import React, {useState} from "react";
 import {convertDateTimetoEpochSeconds, getMinMaxDateTime} from "../../utils/DateTimeUtils";
 import Button from "react-bootstrap/Button";
+import {useEffect} from "react";
+import {Bounce, toast} from "react-toastify";
+
+const trasformazioniRichieste = ["Brandizzazione con il logo del consorzio",
+    "Conservazione per 6 mesi in aging room a una temperatura di 18-20 gradi",
+    "Immersione per 20-25 giorni in acqua salina a temperatura di 16-18 gradi",
+    "Conservazione per 2-3 giorni in una ruota d'acciaio a temperatura di 16-18 gradi"];
+
 function FormProducerVenditaFormaggio() {
-
-    const trasformazioniRichieste = ["Brandizzazione con il logo del consorzio",
-        "Conservazione per 6 mesi in aging room a una temperatura di 18-20 gradi",
-        "Immersione per 20-25 giorni in acqua salina a temperatura di 16-18 gradi",
-        "Conservazione per 2-3 giorni in una ruota d'acciaio a temperatura di 16-18 gradi"];
-
+    const username = sessionStorage.getItem("username");
     const [selectedDateTimeScadenza, setSelectedDateTimeScadenza] = useState("");
-
-    const [checkboxes, setCheckboxes] = useState({
-        option1 : false,
-        option2 : false,
-        option3 : false
-    });
-
+    const [partite, setPartite] = useState([]);
+    const [checkedItems, setCheckedItems] = useState({});
     const [checkBoxesRequiredError, setCheckBoxesRequiredError] = useState(false);
+
+    useEffect(() => {
+        const fetchPartiteId = async (username) => {
+            try {
+                const response = await fetch(`/profilo/partite/acquistati/${username}`);
+                const jsonData = await response.json();
+                setPartite(jsonData.map((partita) => partita.id));
+            } catch (error) {
+                console.error("Errore durante il recupero dei dati:", error);
+            }
+        };
+
+        fetchPartiteId(username);
+    }, []);
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
-        setCheckboxes({
-            ...checkboxes,
+        setCheckedItems({
+            ...checkedItems,
             [name]: checked
         });
     };
@@ -32,51 +44,16 @@ function FormProducerVenditaFormaggio() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        var username = sessionStorage.getItem("username");
+        // Controlla se almeno una partita è selezionata
+        const isAtLeastOneSelected = Object.values(checkedItems).some((checked) => checked);
 
-        console.log(e.target);
+        if (!isAtLeastOneSelected) {
+            alert("Seleziona almeno un silos");
+            return;
+        }
 
         const formData = new FormData(e.target);
-
-        console.log(formData);
-
-        var timeScad = convertDateTimetoEpochSeconds(selectedDateTimeScadenza);
-
-        const isChecked = Object.values(checkboxes).some((value) => value);
-        if (!isChecked) {
-            setCheckBoxesRequiredError(true);
-        } else {
-            setCheckBoxesRequiredError(false);
-        }
-
-        var altezza = parseInt(formData.get("altezza")) * 100;
-
-        var check = [];
-
-        var i = 0
-        for (const pair of formData.entries()) {
-            console.log(i,pair[0], pair[1]);
-            if (i >= 8){
-                check.push(pair[1])
-            }
-            i++;
-        }
-
-        var inputJ = {
-            "input": {
-                "altezza": altezza.toString(),
-                "dataScadenza": timeScad,
-                "diametro": formData.get("diametro"),
-                "idPartiteLatteUsate": check,
-                "peso": formData.get("peso"),
-                "stagionatura": formData.get("certificato"),
-                "tipoTrasformazione": trasformazioniRichieste,
-                "user": username
-            }
-        }
-
-        console.log(inputJ);
-
+        registraVendita(formData, checkedItems, username, selectedDateTimeScadenza)
     }
 
     return(
@@ -122,40 +99,8 @@ function FormProducerVenditaFormaggio() {
                     id={"check-conservazione"}
                 />
                 <br/>
-                <FormLabel>Certficato stagionatura: &nbsp;&nbsp;</FormLabel>
-                <Form.Check
-                    inline
-                    label="12 mesi"
-                    name="certificato"
-                    required={true}
-                    type={"radio"}
-                    value={"1"}
-                    id={"radio-certificato"}
-                />
-                <Form.Check
-                    inline
-                    label="18 mesi"
-                    name="certificato"
-                    type={"radio"}
-                    value={"2"}
-                    id={"radio-certificato"}
-                />
-                <Form.Check
-                    inline
-                    label="24 mesi"
-                    name="certificato"
-                    type={"radio"}
-                    value={"3"}
-                    id={"radio-certificato"}
-                />
-                <Form.Check
-                    inline
-                    label="30 mesi"
-                    name="certificato"
-                    type={"radio"}
-                    value={"4"}
-                    id={"radio-certificato"}
-                />
+                <FormLabel>Mesi di stagionatura: &nbsp;&nbsp;</FormLabel>
+                <input type="number" required={true} name="stagionatura" className={"form-control"} min="12" step="1"/>
                 <br/>
                 <FormLabel>Data di scadenza:</FormLabel>
                 <br/>
@@ -175,9 +120,9 @@ function FormProducerVenditaFormaggio() {
                        required={true}
                        name="altezza"
                        className={"form-control"}
-                       min="1"
+                       min="71"
                        step="1"
-                       max="100"/>
+                       max="94"/>
                 <br/>
                 <FormLabel>Diametro (in pollici):</FormLabel>
                 <br/>
@@ -185,9 +130,9 @@ function FormProducerVenditaFormaggio() {
                        required={true}
                        name="diametro"
                        className={"form-control"}
-                       min="1"
+                       min="16"
                        step="1"
-                       max="100"/>
+                       max="18"/>
                 <br/>
                 <FormLabel>Peso (in libbre):</FormLabel>
                 <br/>
@@ -195,50 +140,89 @@ function FormProducerVenditaFormaggio() {
                        required={true}
                        name="peso"
                        className={"form-control"}
-                       min="1"
-                       step="1"
+                       min="84"
+                       step="84"
                        max="100"/>
                 <br/>
-                <FormLabel> Partite usate: &nbsp;&nbsp;</FormLabel>
+                <FormLabel> Partite di latte usate: &nbsp;&nbsp;</FormLabel>
                 {checkBoxesRequiredError && <p style={{ color: "red" }}>Seleziona almeno una opzione.</p>}
-                <Form.Check
-                    inline
-                    label={"partita1"}
-                    name={"partita1"}
-                    type={"checkbox"}
-                    value={"1"}
-                    onChange={handleCheckboxChange}
-                    id={"partita1"}
-                />
-                <Form.Check
-                    inline
-                    label={"partita2"}
-                    name={"partita2"}
-                    type={"checkbox"}
-                    onChange={handleCheckboxChange}
-                    value={"2"}
-                    id={"partita2"}
-                />
-                <Form.Check
-                    inline
-                    label={"partita3"}
-                    name={"partita3"}
-                    type={"checkbox"}
-                    onChange={handleCheckboxChange}
-                    value={"3"}
-                    id={"partita3"}
-                />
-                <br/>
-                <br/>
-                <Button variant="primary" type="submit">Metti in vendita</Button>
-                <br/>
-                <br/>
+                <br />
+                <CheckboxList items={partite} checkedItems={checkedItems} onChange={handleCheckboxChange} />
+                <br/><br/>
+                <Button variant="primary" type="submit">Metti in vendita</Button><br/>
             </Form>
             </Container>
         </div>
 
     );
 
+}
+
+function CheckboxList({ items, checkedItems, onChange }) {
+    if(items && items.length === 0) {
+        return(<div>Non ci sono partite disponibili</div>)
+    }
+
+    return (
+        <div>
+            {items.map((item, index) => (
+                <div key={index}>
+                    <input
+                        type="checkbox"
+                        id={item}
+                        name={item}
+                        checked={checkedItems[item] || false}
+                        onChange={onChange} // Usa la funzione di cambio di stato passata come prop
+                    />
+                    <label htmlFor={item}>{item}</label>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function registraVendita(formData, checkedItems, username, dataScadenza) {
+    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ProducerInterface_6.2.16/invoke/mettiInVenditaFormaggio'
+    let timeScad = convertDateTimetoEpochSeconds(dataScadenza);
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            "input": {
+                "altezza": formData.get('altezza'),
+                "dataScadenza": timeScad,
+                "diametro": formData.get('diametro'),
+                "idPartiteLatteUsate": Object.keys(checkedItems),
+                "peso": formData.get('peso'),
+                "stagionatura": formData.get('stagionatura'),
+                "tipoTrasformazione": trasformazioniRichieste,
+                "user": username
+            }
+        })
+    };
+
+    fetch(api, requestOptions)
+        .then((response) => {
+            let res = response.json();
+
+            toast.info("Messa in vendita effettuata", {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        })
+        .catch((err) => {
+
+            console.log("error");
+
+        });
 }
 
 export default FormProducerVenditaFormaggio;

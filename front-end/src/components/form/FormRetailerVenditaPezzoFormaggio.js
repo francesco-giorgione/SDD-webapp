@@ -1,85 +1,110 @@
-import React, {useState} from "react";
-import {convertDateTimetoEpochSeconds, getMinMaxDateTime} from "../../utils/DateTimeUtils";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import {FormLabel} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from "react";
+import { Button, Container, Form } from "react-bootstrap";
+import { Bounce, toast } from "react-toastify";
 
-function formRetailerVenditaPezzoFormaggio() {
+function FormRetailerVenditaPezzoFormaggio() {
+    const [formaggi, setFormaggi] = useState([]);
+    let username = sessionStorage.getItem('username');
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchFormaggiId = async (username) => {
+            try {
+                const response = await fetch(`/profilo/formaggi/acquistati/${username}`);
+                const jsonData = await response.json();
+                setFormaggi(jsonData.map((formaggio) => formaggio.id));
+            } catch (error) {
+                console.error("Errore durante il recupero dei dati:", error);
+            }
+        };
 
-    }
+        fetchFormaggiId(username);
+    }, [username]);
 
-    return(
+    return (
         <div>
             <label>Vendita Pezzo di Formaggio:</label>
             <Container className={"border border-primary rounded"}>
-                <Form onSubmit={handleSubmit}>
-                    <FormLabel>Data di acquisto:</FormLabel>
-                    <br/>
-                    <input aria-label="Date and time"
-                           required={true}
-                           className={"form-control"}
-                           min={getMinMaxDateTime(0)}
-                           type="datetime-local"/>
-                    <br/>
-                    <FormLabel>Quantità:</FormLabel>
-                    <br/>
-                    <input type="number"
-                           required={true}
-                           name="quantita"
-                           className={"form-control"}
-                           min="1"
-                           step="1"
-                           max="99"/>
-                    <br/>
-                    <FormLabel>Formaggio usato: &nbsp;&nbsp;</FormLabel>
-                    <br/>
-                    <Form.Check
-                        inline
-                        label="formaggio1"
-                        name="formaggio"
-                        required={true}
-                        type={"radio"}
-                        value={"1"}
-                        id={"radio-formaggio"}
-                    />
-                    <Form.Check
-                        inline
-                        label="formaggio2"
-                        name="formaggio"
-                        type={"radio"}
-                        value={"2"}
-                        id={"radio-formaggio"}
-                    />
-                    <Form.Check
-                        inline
-                        label="formaggio3"
-                        name="formaggio"
-                        type={"radio"}
-                        value={"3"}
-                        id={"radio-formaggio"}
-                    />
-                    <Form.Check
-                        inline
-                        label="formaggio4"
-                        name="formaggio"
-                        type={"radio"}
-                        value={"4"}
-                        id={"radio-formaggio"}
-                    />
-                    <br/>
-                    <br/>
-                    <Button variant="primary" type="submit">Metti in vendita</Button>
-                    <br/>
-                    <br/>
-                </Form>
+                <br /><h6>Formaggio di provenienza:</h6>
+                <RadioButtonForm formaggi={formaggi} username={username} />
             </Container>
         </div>
-
     );
-
 }
 
-export default formRetailerVenditaPezzoFormaggio;
+function RadioButtonForm({ formaggi, username }) {
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (selectedOption) {
+            registraVendita(selectedOption, username); // Passa anche lo username
+        } else {
+            alert("Seleziona un'opzione!");
+        }
+    };
+
+    return (
+        <Form onSubmit={handleSubmit}>
+            <fieldset>
+                {formaggi.length === 0 ? (
+                    <legend>Formaggio usato</legend>
+                ) : (
+                    formaggi.map((formaggio, index) => (
+                        <Form.Check key={index}>
+                            <input
+                                type="radio" id={`option${index}`} name="options" value={formaggio}
+                                checked={selectedOption === formaggio} onChange={handleOptionChange}
+                            />
+                            <label htmlFor={`option${index}`}>{formaggio}</label>
+                        </Form.Check>
+                    ))
+                )}
+            </fieldset>
+            <br />
+            <Button variant="primary" type="submit">Metti in vendita</Button>
+        </Form>
+    );
+}
+
+function registraVendita(selectedOption, username) {
+    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/RetailerInterface_6.2.16/invoke/mettiInVenditaPezzoFormaggio'
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            "input": {
+                "idFormaggioUsato": selectedOption, // Utilizza l'opzione selezionata
+                "quantita": "0",
+                "user": username
+            }
+        })
+    };
+
+    fetch(api, requestOptions)
+        .then((response) => {
+            let res = response.json();
+            console.log(res)
+
+            toast.info("Messa in vendita effettuata", {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        })
+        .catch((err) => {
+            console.log("error");
+        });
+}
+
+export default FormRetailerVenditaPezzoFormaggio;

@@ -3,106 +3,107 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import {FormLabel} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {Bounce, toast} from "react-toastify";
 
 function FormRetailerAcquistaFormaggio() {
-    const[parita, setPartita] = useState([]);
-
-    const username = sessionStorage.getItem("username");
+    const[formaggiInVendita, setFormaggiInVendita] = useState([]);
 
     useEffect(() => {
-        fecthPartitaId(username)
+        const fetchFormaggiInVendita = async () => {
+            try {
+                const response = await fetch('/all/formaggi/in-vendita');
+                const data = await response.json();
+                setFormaggiInVendita(data.map((formaggio => formaggio.id)));
+            } catch (error) {
+                console.error('Errore durante il recupero dei dati:', error);
+            }
+        };
+
+        fetchFormaggiInVendita();
     }, []);
 
-    const fecthPartitaId = async (username) => {
-        try {
-            const response = await fetch(`/profilo/silos/acquistati/${username}`);
-            const jsonData = await response.json();
-            console.log(jsonData);
-            console.log("okay")
-            setPartita(jsonData);
-        } catch (error) {
-            console.error('Errore durante il recupero dei dati:', error);
+    return(<RadioButtonForm options={formaggiInVendita} />);
+}
+
+function RadioButtonForm({ options }) {
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
+
+    if(options && options.length === 0) {
+        return(
+            <fieldset>
+                <legend>Formaggi disponibili</legend>
+                Non ci sono formaggi in vendita
+            </fieldset>
+        )
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (selectedOption) {
+            registraAcquisto(selectedOption)
+        } else {
+            alert("Seleziona un'opzione!");
         }
-    }
+    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-    }
-
-    return(
-        <div>
-            <label>Acquisto Formaggio:</label><br/>
-            <Container className={"border border-primary rounded"}>
-                <Form onSubmit={handleSubmit}>
-                    <FormLabel>Formaggi in vendita: &nbsp;&nbsp;</FormLabel>
-                    <br/>
-                    <Form.Check
-                        inline
-                        label={"formaggio1"}
-                        name={"formaggio1"}
-                        type={"checkbox"}
-                        value={"formaggio1"}
-                        id={"formaggio1"}
-                    />
-                    <Form.Check
-                        inline
-                        label={"formaggio2"}
-                        name={"formaggio2"}
-                        type={"checkbox"}
-                        value={"formaggio2"}
-                        id={"formaggio2"}
-                    />
-                    <Form.Check
-                        inline
-                        label={"formaggio3"}
-                        name={"formaggio3"}
-                        type={"checkbox"}
-                        value={"formaggio3"}
-                        id={"formaggio3"}
-                    />
-                    <Form.Check
-                        inline
-                        label={"formaggio4"}
-                        name={"formaggio4"}
-                        type={"checkbox"}
-                        value={"formaggio4"}
-                        id={"formaggio4"}
-                    />
-                    <Form.Check
-                        inline
-                        label={"formaggio5"}
-                        name={"formaggio5"}
-                        type={"checkbox"}
-                        value={"formaggio5"}
-                        id={"formaggio5"}
-                    />
-                    <Form.Check
-                        inline
-                        label={"formaggio6"}
-                        name={"formaggio6"}
-                        type={"checkbox"}
-                        value={"formaggio6"}
-                        id={"formaggio6"}
-                    />
-                    <Form.Check
-                        inline
-                        label={"formaggio7"}
-                        name={"formaggio7"}
-                        type={"checkbox"}
-                        value={"formaggio7"}
-                        id={"formaggio7"}
-                    />
-                    <br/>
-                    <br/>
-                    <Button variant="primary" type="submit">Registra acquisto</Button>
-                    <br/>
-                    <br/>
-                </Form>
-            </Container>
-        </div>
+    return (
+        <Form onSubmit={handleSubmit}>
+            <fieldset>
+                <legend>Formaggi disponibili</legend>
+                {options && options.map((option, index) => (
+                    <Form.Check key={index}>
+                        <input
+                            type="radio" id={`option${index}`} name="options" value={option}
+                            checked={selectedOption === option} onChange={handleOptionChange}
+                        />
+                        <label htmlFor={`option${index}`}>{option}</label>
+                    </Form.Check>
+                ))}
+            </fieldset>
+            <br/>
+            <Button variant="primary" type="submit">Registra acquisto</Button>
+        </Form>
     );
+}
+
+function registraAcquisto(id) {
+    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/RetailerInterface_6.2.16/invoke/acquistaFormaggio'
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            "input": {
+                "id": id,
+                "user": sessionStorage.getItem("username")
+            }
+        })
+    };
+
+    fetch(api, requestOptions)
+        .then((response) => {
+            let res = response.json();
+            console.log(res)
+
+            toast.info("Acquisto effettuato", {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        })
+        .catch((err) => {
+            console.log("error");
+        });
 }
 
 export default FormRetailerAcquistaFormaggio;

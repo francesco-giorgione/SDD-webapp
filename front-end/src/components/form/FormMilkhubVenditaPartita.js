@@ -139,6 +139,10 @@ function FormMilkhubVenditaPartita() {
 }
 
 function CheckboxList({ items, checkedItems, onChange }) {
+    if(items && items.length === 0) {
+        return(<div>Non ci sono silos disponibili</div>)
+    }
+
     return (
         <div>
             {items.map((item, index) => (
