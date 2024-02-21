@@ -28,6 +28,8 @@ function MovimentiRetailer({username}) {
         try {
             const response = await fetch('/profilo/pezzi/in-vendita/' + username);
             const jsonData = await response.json();
+            console.log('JSON DATA')
+            console.log(jsonData)
             setData2(jsonData);
         } catch (error) {
             console.error('Errore durante il recupero dei dati:', error);

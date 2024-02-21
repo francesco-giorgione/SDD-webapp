@@ -36,7 +36,7 @@ function SchedaProfilo() {
     useEffect(() => {
         // fetchProfilo();
 
-        const api = "http://127.0.0.1:5000/api/v1/namespaces/default/apis/gestioneUtenti/query/getUtenteByUsername";
+        const api = "http://127.0.0.1:5003/api/v1/namespaces/default/apis/GestioneUtenti_6.2.0/query/getUtenteByUsername";
 
         const requestOptions = {
             method: 'POST',

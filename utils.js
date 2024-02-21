@@ -186,7 +186,11 @@ async function getProdottiProfilo(user, getter, getterProdotto, compratoreNullo)
         const promesse = ids.map(async (id) => {
             let tmp = await getterProdotto(id)
 
-            if(tmp.output.compratore !== undefined) {
+            if(!tmp.output) {
+                return
+            }
+
+            if(tmp.output.hasOwnProperty('compratore')) {
                 if(!compratoreNullo && tmp.output.compratore === '') {
                     return
                 }
