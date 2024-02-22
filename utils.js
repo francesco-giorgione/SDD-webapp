@@ -1,14 +1,14 @@
 const axios = require("axios");
 
 async function getSilos(id) {
-    let silos = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/AcquistoMilkhub_6.2.14/query/getById')
+    let silos = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/acquistoMilkhub/query/getById')
     // let compratore = await getRagioneSociale(silos.output.compratore)
     // silos.output.compratore = compratore.output.ragioneSociale
     return silos
 }
 
 async function getPartita(id) {
-    let partita = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getById')
+    let partita = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioMilkhubProducer/query/getById')
     // let compratore = await getRagioneSociale(partita.output.compratore)
     // let venditore = await getRagioneSociale(partita.output.venditore)
     // if(compratore.success !== "false") partita.output.compratore = compratore.output.ragioneSociale
@@ -17,7 +17,7 @@ async function getPartita(id) {
 }
 
 async function getFormaggio(id) {
-    let formaggio = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getById')
+    let formaggio = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioProducerRetailer/query/getById')
     // let compratore = await getRagioneSociale(formaggio.output.compratore)
     // let venditore = await getRagioneSociale(formaggio.output.venditore)
     // formaggio.output.compratore = compratore.output.ragioneSociale
@@ -26,14 +26,14 @@ async function getFormaggio(id) {
 }
 
 async function getPezzo(id) {
-    let pezzo = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioRetailerConsumer_6.2.14/query/getById')
+    let pezzo = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioRetailerConsumer_2/query/getById')
     // let venditore = await getRagioneSociale(pezzo.output.venditore)
     // pezzo.output.venditore = venditore.output.ragioneSociale
     return pezzo
 }
 
 async function getSilosAcquistati(milkhub) {
-    let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/AcquistoMilkhub_6.2.14/query/getIdSilosByCompratore')
+    let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/acquistoMilkhub/query/getIdSilosByCompratore')
 
     if(ids.success === "true") {
         return ids.output
@@ -43,7 +43,7 @@ async function getSilosAcquistati(milkhub) {
 }
 
 async function getPartiteInVendita(milkhub) {
-    let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getIdPartiteLatteByVenditore')
+    let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioMilkhubProducer/query/getIdPartiteLatteByVenditore')
 
     if(ids.success === "true") {
         return ids.output
@@ -52,7 +52,7 @@ async function getPartiteInVendita(milkhub) {
 }
 
 async function getPartiteVendute(milkhub) {
-    let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getIdPartiteLatteByVenditore')
+    let ids = await fetchDataProfilo(milkhub, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioMilkhubProducer/query/getIdPartiteLatteByVenditore')
 
     if(ids.success === "true") {
         return ids.output
@@ -61,12 +61,12 @@ async function getPartiteVendute(milkhub) {
 }
 
 async function getPartiteAcquistate(producer) {
-    let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioMilkhubProducer_6.2.14/query/getIdPartiteLatteByCompratore')
+    let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioMilkhubProducer/query/getIdPartiteLatteByCompratore')
     return ids.success === "true" ? ids.output : {"success": "false"}
 }
 
 async function getFormaggiInVendita(producer) {
-    let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getIdFormaggiByVenditore')
+    let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioProducerRetailer/query/getIdFormaggiByVenditore')
 
     if(ids.success === "true") {
         return ids.output
@@ -75,7 +75,7 @@ async function getFormaggiInVendita(producer) {
 }
 
 async function getFormaggiVenduti(producer) {
-    let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getIdFormaggiByVenditore')
+    let ids = await fetchDataProfilo(producer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioProducerRetailer/query/getIdFormaggiByVenditore')
 
     if(ids.success === "true") {
         return ids.output
@@ -84,12 +84,12 @@ async function getFormaggiVenduti(producer) {
 }
 
 async function getFormaggiAcquistati(retailer) {
-    let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioProducerRetailer_6.2.14/query/getIdFormaggiByCompratore')
+    let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioProducerRetailer/query/getIdFormaggiByCompratore')
     return ids.success === "true" ? ids.output : {"success": "false"}
 }
 
 async function getPezziInVendita(retailer) {
-    let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ScambioRetailerConsumer_6.2.14/query/getIdPezziFormaggioByVenditore')
+    let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioRetailerConsumer_2/query/getIdPezziFormaggioByVenditore')
 
     if(ids.success === "true") {
         return ids.output
@@ -98,7 +98,7 @@ async function getPezziInVendita(retailer) {
 }
 
 async function getRagioneSociale(username) {
-    let url = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/GestioneUtenti_6.2.0/query/getUtenteByUsername'
+    let url = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/gestioneUtentu/query/getUtenteByUsername'
 
     try {
         const credentials = Buffer.from("admin:admin").toString('base64');
@@ -113,7 +113,7 @@ async function getRagioneSociale(username) {
                 'Accept': 'application/json',
                 'Request-Timeout': '2m0s',
                 'Content-Type': 'application/json',
-                'Authorization': authHeader // Aggiunge l'header di autenticazione HTTP Basic
+                'Authorization': authHeader
             }
         });
 

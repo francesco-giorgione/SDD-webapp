@@ -18,21 +18,24 @@ function FormMilkhubAcquistaSilos() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // console.log(e.target);
-
         const formData = new FormData(e.target);
 
-        console.log(formData);
+        let timeScad = convertDateTimetoEpochSeconds(selectedDateTimeScadenza);
+        let timeProd = convertDateTimetoEpochSeconds(selectedDateTimeProduzione);
+        let api = 'http://127.0.0.1:5000/api/v1/namespaces/default/apis/milkhubInterface/invoke/acquistaSilos'
 
-        var timeScad = convertDateTimetoEpochSeconds(selectedDateTimeScadenza);
+        let username = sessionStorage.getItem('username')
+        let hashPassword = sessionStorage.getItem('hashPassword')
 
-        var timeProd = convertDateTimetoEpochSeconds(selectedDateTimeProduzione);
-
-        var api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/MilkhubInterface_6.2.15/invoke/acquistaSilos'
+        const credentials = Buffer.from(username + ":" + hashPassword).toString('base64');
+        const authHeader = `Basic ${credentials}`;
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authHeader
+            },
             body: JSON.stringify({
                 "input": {
                     "alimentazioneMucca": formData.get("alimentazione"),
@@ -48,14 +51,8 @@ function FormMilkhubAcquistaSilos() {
         };
 
         fetch(api, requestOptions)
-
             .then((response) => {
-
                 var res = response.json();
-
-                console.log(res)
-
-                console.log(res.value)
 
                 toast.info("Inserimento effettuato", {
                     position: "top-left",
@@ -70,9 +67,7 @@ function FormMilkhubAcquistaSilos() {
                 });
             })
             .catch((err) => {
-
                 console.log("error");
-
             });
     };
 

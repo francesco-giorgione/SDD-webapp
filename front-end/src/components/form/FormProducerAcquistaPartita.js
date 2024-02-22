@@ -73,11 +73,18 @@ function RadioButtonForm({ options }) {
 }
 
 function registraAcquisto(id) {
-    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ProducerInterface_6.2.16/invoke/acquistaPartitaLatte'
+    let api = 'http://127.0.0.1:5001/api/v1/namespaces/default/apis/producerInterface/invoke/acquistaPartitaLatte'
+    let username = sessionStorage.getItem('username')
+    let hashPassword = sessionStorage.getItem('hashPassword')
+    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64');
+    const authHeader = `Basic ${credentials}`;
 
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+        },
         body: JSON.stringify({
             "input": {
                 "id": id,

@@ -162,12 +162,19 @@ function CheckboxList({ items, checkedItems, onChange }) {
 }
 
 function registraVendita(formData, checkedItems, username, dataScadenza) {
-    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/MilkhubInterface_6.2.15/invoke/mettiInVenditaPartitaLatte'
+    let api = 'http://127.0.0.1:5000/api/v1/namespaces/default/apis/milkhubInterface/invoke/mettiInVenditaPartitaLatte'
     let timeScad = convertDateTimetoEpochSeconds(dataScadenza);
+    let hashPassword = sessionStorage.getItem('hashPassword')
+
+    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64');
+    const authHeader = `Basic ${credentials}`;
 
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+        },
         body: JSON.stringify({
             "input": {
                 "dataScadenza": timeScad,

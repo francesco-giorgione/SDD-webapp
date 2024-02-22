@@ -182,12 +182,18 @@ function CheckboxList({ items, checkedItems, onChange }) {
 }
 
 function registraVendita(formData, checkedItems, username, dataScadenza) {
-    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/ProducerInterface_6.2.16/invoke/mettiInVenditaFormaggio'
-    let timeScad = convertDateTimetoEpochSeconds(dataScadenza);
+    let api = 'http://127.0.0.1:5001/api/v1/namespaces/default/apis/producerInterface/invoke/mettiInVenditaFormaggio'
+    let timeScad = convertDateTimetoEpochSeconds(dataScadenza)
+    let hashPassword = sessionStorage.getItem('hashPassword')
+    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64')
+    const authHeader = `Basic ${credentials}`
 
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+        },
         body: JSON.stringify({
             "input": {
                 "altezza": formData.get('altezza'),

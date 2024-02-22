@@ -71,11 +71,18 @@ function RadioButtonForm({ options }) {
 }
 
 function registraAcquisto(id) {
-    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/RetailerInterface_6.2.16/invoke/acquistaFormaggio'
+    let api = 'http://127.0.0.1:5002/api/v1/namespaces/default/apis/retailerInterface_2/invoke/acquistaFormaggio'
+    let username = sessionStorage.getItem('username')
+    let hashPassword = sessionStorage.getItem('hashPassword')
+    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64')
+    const authHeader = `Basic ${credentials}`
 
     const requestOptions = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+        },
         body: JSON.stringify({
             "input": {
                 "id": id,
@@ -86,9 +93,6 @@ function registraAcquisto(id) {
 
     fetch(api, requestOptions)
         .then((response) => {
-            let res = response.json();
-            console.log(res)
-
             toast.info("Acquisto effettuato", {
                 position: "top-left",
                 autoClose: 5000,

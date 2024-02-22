@@ -71,15 +71,20 @@ function RadioButtonForm({ formaggi, username }) {
 }
 
 function registraVendita(selectedOption, username) {
-    let api = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/RetailerInterface_6.2.16/invoke/mettiInVenditaPezzoFormaggio'
+    let api = 'http://127.0.0.1:5002/api/v1/namespaces/default/apis/retailerInterface_2/invoke/mettiInVenditaPezzoFormaggio'
+    let hashPassword = sessionStorage.getItem('hashPassword')
+    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64')
+    const authHeader = `Basic ${credentials}`
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+        },
         body: JSON.stringify({
             "input": {
-                "idFormaggioUsato": selectedOption, // Utilizza l'opzione selezionata
-                "quantita": "0",
+                "idFormaggioUsato": selectedOption,
                 "user": username
             }
         })
