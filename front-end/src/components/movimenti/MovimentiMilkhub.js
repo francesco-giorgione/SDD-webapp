@@ -64,6 +64,7 @@ function MovimentiMilkhub({username}) {
                                 <p><b>Id:</b> {silos.id}</p>
                                 <p><b>Alimentazione mucca:</b> {silos.alimentazioneMucca}</p>
                                 <p><b>Compratore:</b> {silos.compratore}</p>
+                                <p><b>Data di produzione:</b> {getStringaData(new Date(parseInt(silos.dataProduzione) * 1000))}</p>
                                 <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(silos.dataAcquisto) * 1000))}</p>
                                 <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(silos.dataScadenza) * 1000))}</p>
                                 <p><b>Fornitore:</b> {silos.fornitore}</p>
