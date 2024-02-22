@@ -27,7 +27,7 @@ function FormMilkhubAcquistaSilos() {
         let username = sessionStorage.getItem('username')
         let hashPassword = sessionStorage.getItem('hashPassword')
 
-        const credentials = Buffer.from(username + ":" + hashPassword).toString('base64');
+        const credentials = btoa(username + ":" + hashPassword);
         const authHeader = `Basic ${credentials}`;
 
         const requestOptions = {
@@ -53,6 +53,7 @@ function FormMilkhubAcquistaSilos() {
         fetch(api, requestOptions)
             .then((response) => {
                 var res = response.json();
+                console.log(res)
 
                 toast.info("Inserimento effettuato", {
                     position: "top-left",
@@ -165,7 +166,7 @@ function FormMilkhubAcquistaSilos() {
                     />
                 </span>
                 <br/>
-                <FormLabel>Quantità:</FormLabel>
+                <FormLabel>Quantità (litri):</FormLabel>
                 <br/>
                 <input type="number"
                        required={true}

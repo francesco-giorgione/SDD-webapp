@@ -166,7 +166,7 @@ function registraVendita(formData, checkedItems, username, dataScadenza) {
     let timeScad = convertDateTimetoEpochSeconds(dataScadenza);
     let hashPassword = sessionStorage.getItem('hashPassword')
 
-    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64');
+    const credentials = btoa(username + ":" + hashPassword);
     const authHeader = `Basic ${credentials}`;
 
     const requestOptions = {

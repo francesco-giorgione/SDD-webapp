@@ -76,7 +76,7 @@ function registraAcquisto(id) {
     let api = 'http://127.0.0.1:5001/api/v1/namespaces/default/apis/producerInterface/invoke/acquistaPartitaLatte'
     let username = sessionStorage.getItem('username')
     let hashPassword = sessionStorage.getItem('hashPassword')
-    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64');
+    const credentials = btoa(username + ":" + hashPassword);
     const authHeader = `Basic ${credentials}`;
 
     const requestOptions = {

@@ -73,7 +73,7 @@ function RadioButtonForm({ formaggi, username }) {
 function registraVendita(selectedOption, username) {
     let api = 'http://127.0.0.1:5002/api/v1/namespaces/default/apis/retailerInterface_2/invoke/mettiInVenditaPezzoFormaggio'
     let hashPassword = sessionStorage.getItem('hashPassword')
-    const credentials = Buffer.from(username + ":" + hashPassword).toString('base64')
+    const credentials = btoa(username + ":" + hashPassword);
     const authHeader = `Basic ${credentials}`
 
     const requestOptions = {
