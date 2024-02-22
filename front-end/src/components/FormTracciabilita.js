@@ -13,7 +13,10 @@ function FormTracciabilita() {
         event.preventDefault(); // Evita il comportamento predefinito del form (ricaricamento della pagina)
         let pezzo = await getPezzo(inputValue);
 
-        if (pezzo.success !== "false" && pezzo.output !== undefined) {
+        console.log('PEZZO')
+        console.log(pezzo)
+
+        if (pezzo.success !== "false" && pezzo.output !== undefined && pezzo.venditore) {
             setResult(<SchedaPezzo pezzo={pezzo.output} />)
         } else {
             setIsValid(false)
