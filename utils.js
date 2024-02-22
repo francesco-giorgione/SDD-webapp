@@ -26,7 +26,7 @@ async function getFormaggio(id) {
 }
 
 async function getPezzo(id) {
-    let pezzo = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioRetailerConsumer_2/query/getById')
+    let pezzo = await fetchDataTrace(id, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioRetailerConsumer/query/getById')
     // let venditore = await getRagioneSociale(pezzo.output.venditore)
     // pezzo.output.venditore = venditore.output.ragioneSociale
     return pezzo
@@ -89,7 +89,7 @@ async function getFormaggiAcquistati(retailer) {
 }
 
 async function getPezziInVendita(retailer) {
-    let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioRetailerConsumer_2/query/getIdPezziFormaggioByVenditore')
+    let ids = await fetchDataProfilo(retailer, 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/scambioRetailerConsumer/query/getIdPezziFormaggioByVenditore')
 
     if(ids.success === "true") {
         return ids.output
@@ -98,7 +98,7 @@ async function getPezziInVendita(retailer) {
 }
 
 async function getRagioneSociale(username) {
-    let url = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/gestioneUtentu/query/getUtenteByUsername'
+    let url = 'http://127.0.0.1:5003/api/v1/namespaces/default/apis/gestioneUtenti/query/getUtenteByUsername'
 
     try {
         const credentials = Buffer.from("admin:admin").toString('base64');
