@@ -24,7 +24,10 @@ function FormLogin() {
     // Event handler to submit form data
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let res = await checkCredenziali(formData.username, formData.password)
+
+        const hashPassword = SHA256(formData.password).toString()
+
+        let res = await checkCredenziali(formData.username, hashPassword)
 
         if (res.success === "false") {
             setIsValid(false)
@@ -32,7 +35,11 @@ function FormLogin() {
         }
 
         sessionStorage.setItem("username", formData.username);
+
+        sessionStorage.setItem("hashPassword", hashPassword);
+
         sessionStorage.setItem("ruolo", res.ruolo);  // 1 per milkhub, 2 per producer, 3 per retailer
+
         window.location.reload();
     };
 
@@ -77,13 +84,13 @@ function FormLogin() {
     );
 }
 
-async function checkCredenziali(username, password) {
+async function checkCredenziali(username, hashPassword) {
     const url = '/auth';
 
     try {
         const response = await axios.post(url, {
             username: username,
-            hashPassword: SHA256(password).toString()
+            hashPassword: hashPassword
         }, {
             headers: {
                 'Accept': 'application/json',
