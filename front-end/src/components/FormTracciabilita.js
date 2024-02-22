@@ -16,7 +16,7 @@ function FormTracciabilita() {
         console.log('PEZZO')
         console.log(pezzo)
 
-        if (pezzo.success !== "false" && pezzo.output !== undefined && pezzo.venditore) {
+        if (pezzo.success !== "false" && pezzo.output !== undefined) {
             setResult(<SchedaPezzo pezzo={pezzo.output} />)
         } else {
             setIsValid(false)

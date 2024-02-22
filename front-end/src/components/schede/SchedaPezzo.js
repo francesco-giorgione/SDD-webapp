@@ -18,7 +18,6 @@ function SchedaPezzo( {pezzo} ) {
                 <tr>
                     <th>Id</th>
                     <th>Data di Acquisto</th>
-                    <th>Quantità (g)</th>
                     <th>Venditore</th>
                     <th>ID Formaggio</th>
                 </tr>
@@ -27,7 +26,6 @@ function SchedaPezzo( {pezzo} ) {
                 <tr>
                     <td>{pezzo.id}</td>
                     <td>{getStringaData(new Date(parseInt(pezzo.dataAcquisto)))}</td>
-                    <td>{pezzo.quantita}</td>
                     <td>{pezzo.venditore}</td>
                     <td align='center'><Button onClick={() => {
                         setModalIsOpen(true)

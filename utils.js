@@ -143,7 +143,7 @@ async function fetchDataTrace(id, url) {
             }
         });
 
-        return response.data.output.quantita === "0" || response.data.output.altezza === "0" ?
+        return response.data.output.id === "0" ?
             {"success": "true"} : {...{"success": "true"}, ...response.data}
 
     } catch (error) {
