@@ -56,8 +56,8 @@ function MovimentiRetailer({username}) {
                             <Accordion.Header>Formaggio {index + 1}</Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {formaggio.id}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(formaggio.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(formaggio.dataAcquisto) * 1000))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(formaggio.dataScadenza) * 1000))}</p>
                                 <p><b>Venditore:</b> {formaggio.venditore}</p>
                                 <p><b>Altezza:</b> {formaggio.altezza} cm</p>
                                 <p><b>Diametro:</b> {formaggio.diametro} cm</p>
@@ -76,7 +76,7 @@ function MovimentiRetailer({username}) {
                             <Accordion.Header>Pezzo di formaggio {index + 1}</Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {pezzo.id}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(pezzo.dataAcquisto)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(pezzo.dataAcquisto) * 1000))}</p>
                                 <p><b>Quantità:</b> {pezzo.quantita} grammi</p>
                                 <p><Button onClick={() => handleApriSchedaPezzo(pezzo.id)}>Apri scheda</Button></p>
                             </Accordion.Body>

@@ -64,8 +64,8 @@ function MovimentiMilkhub({username}) {
                                 <p><b>Id:</b> {silos.id}</p>
                                 <p><b>Alimentazione mucca:</b> {silos.alimentazioneMucca}</p>
                                 <p><b>Compratore:</b> {silos.compratore}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(silos.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(silos.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(silos.dataAcquisto) * 1000))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(silos.dataScadenza) * 1000))}</p>
                                 <p><b>Fornitore:</b> {silos.fornitore}</p>
                                 <p><b>Provenienza:</b> {silos.provenienza}</p>
                                 <p><b>Quantità:</b> {silos.quantita} litri</p>
@@ -85,9 +85,9 @@ function MovimentiMilkhub({username}) {
                             </Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto) * 1000))}
                                 </p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza) * 1000))}
                                 </p>
                                 <p><b>Id silos usati:</b> {partita.idSilosUsati}</p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
@@ -106,9 +106,9 @@ function MovimentiMilkhub({username}) {
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
                                 <p><b>Compatore:</b> {partita.compratore}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto) * 1000))}
                                 </p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza) * 1000))}
                                 </p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
                                 <p><Button onClick={() => handleApriScheda(partita.id)}>Apri scheda</Button></p>

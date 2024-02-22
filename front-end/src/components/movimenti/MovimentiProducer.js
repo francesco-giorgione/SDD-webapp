@@ -66,8 +66,8 @@ function MovimentiProducer({username}) {
                             <Accordion.Body>
                                 <p><b>Id:</b> {partita.id}</p>
                                 <p><b>Venditore:</b> {partita.venditore}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(partita.dataAcquisto) * 1000))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(partita.dataScadenza) * 1000))}</p>
                                 <p><b>Quantità:</b> {partita.quantita} litri</p>
                                 <p><Button onClick={() => handleApriSchedaPartita(partita.id)}>Apri scheda</Button></p>
                             </Accordion.Body>
@@ -83,8 +83,8 @@ function MovimentiProducer({username}) {
                             <Accordion.Header>Formaggio {index + 1}</Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {formaggio.id}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(formaggio.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(formaggio.dataAcquisto) * 1000))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(formaggio.dataScadenza) * 1000))}</p>
                                 <p><b>Altezza:</b> {formaggio.altezza} cm</p>
                                 <p><b>Diametro:</b> {formaggio.diametro} cm</p>
                                 <p><b>Peso:</b> {formaggio.peso} libbre</p>
@@ -102,8 +102,8 @@ function MovimentiProducer({username}) {
                             <Accordion.Header>Formaggio {index + 1}</Accordion.Header>
                             <Accordion.Body>
                                 <p><b>Id:</b> {formaggio.id}</p>
-                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(formaggio.dataAcquisto)))}</p>
-                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</p>
+                                <p><b>Data di acquisto:</b> {getStringaData(new Date(parseInt(formaggio.dataAcquisto) * 1000))}</p>
+                                <p><b>Data di scadenza:</b> {getStringaData(new Date(parseInt(formaggio.dataScadenza) * 1000))}</p>
                                 <p><b>Compratore:</b> {formaggio.compratore}</p>
                                 <p><b>Altezza:</b> {formaggio.altezza} cm</p>
                                 <p><b>Diametro:</b> {formaggio.diametro} cm</p>
