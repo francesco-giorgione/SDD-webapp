@@ -30,8 +30,8 @@ function SchedaFormaggio( {formaggio} ) {
                 <tbody>
                 <tr>
                     <td>{formaggio.id}</td>
-                    <td>{getStringaData(new Date(parseInt(formaggio.dataAcquisto)))}</td>
-                    <td>{getStringaData(new Date(parseInt(formaggio.dataScadenza)))}</td>
+                    <td>{getStringaData(new Date(parseInt(formaggio.dataAcquisto) * 1000))}</td>
+                    <td>{getStringaData(new Date(parseInt(formaggio.dataScadenza) * 1000))}</td>
                     <td>{formaggio.diametro} pollici</td>
                     <td>{formaggio.altezza} pollici</td>
                     <td>{getCertificato(formaggio.certificatoStagionatura)}</td>

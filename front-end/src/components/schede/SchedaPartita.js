@@ -29,8 +29,8 @@ import getStringaData from "../utils";
                 <tbody>
                 <tr>
                     <td>{partita.id}</td>
-                    <td>{getStringaData(new Date(parseInt(partita.dataAcquisto)))}</td>
-                    <td>{getStringaData(new Date(parseInt(partita.dataScadenza)))}</td>
+                    <td>{getStringaData(new Date(parseInt(partita.dataAcquisto) * 1000))}</td>
+                    <td>{getStringaData(new Date(parseInt(partita.dataScadenza) * 1000))}</td>
                     <td>{partita.temperaturaConservazione} °C</td>
                     <td>{partita.quantita} litri</td>
                     <td>{partita.venditore}</td>

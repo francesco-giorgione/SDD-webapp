@@ -27,9 +27,9 @@ function SchedaSilos( {silos} ) {
                 <tr>
                     <td>{silos.id}</td>
                     <td>{silos.alimentazioneMucca}</td>
-                    <td>{getStringaData(new Date(parseInt(silos.dataAcquisto)))}</td>
-                    <td>{getStringaData(new Date(parseInt(silos.dataProduzione)))}</td>
-                    <td>{getStringaData(new Date(parseInt(silos.dataScadenza)))}</td>
+                    <td>{getStringaData(new Date(parseInt(silos.dataAcquisto) * 1000))}</td>
+                    <td>{getStringaData(new Date(parseInt(silos.dataProduzione) * 1000))}</td>
+                    <td>{getStringaData(new Date(parseInt(silos.dataScadenza) * 1000))}</td>
                     <td>{silos.fornitore}</td>
                     <td>{silos.compratore}</td>
                     <td>{silos.provenienza}</td>
